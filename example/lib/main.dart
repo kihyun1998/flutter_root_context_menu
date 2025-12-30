@@ -30,8 +30,7 @@ class PlaygroundPage extends StatefulWidget {
 
 class _PlaygroundPageState extends State<PlaygroundPage> {
   // Animation settings
-  ContextMenuAnimationBuilder _selectedAnimation =
-      ContextMenuAnimations.popup;
+  ContextMenuAnimationBuilder _selectedAnimation = ContextMenuAnimations.popup;
   String _animationName = 'Popup';
   double _animationDuration = 200;
 
@@ -73,10 +72,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
             // Desktop layout: side by side
             return Row(
               children: [
-                SizedBox(
-                  width: 300,
-                  child: _buildControlPanel(),
-                ),
+                SizedBox(width: 300, child: _buildControlPanel()),
                 const VerticalDivider(width: 1),
                 Expanded(child: _buildPlayground()),
               ],
@@ -109,7 +105,10 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 20),
 
           // Animation Type
-          const Text('Animation Type', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text(
+            'Animation Type',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           DropdownButton<String>(
             value: _animationName,
@@ -127,7 +126,10 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 20),
 
           // Animation Duration
-          const Text('Animation Duration', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text(
+            'Animation Duration',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -151,7 +153,10 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 20),
 
           // Background Color
-          const Text('Background Color', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text(
+            'Background Color',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -166,7 +171,10 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 20),
 
           // Text Color
-          const Text('Text Color', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text(
+            'Text Color',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -181,7 +189,10 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 20),
 
           // Elevation
-          const Text('Elevation', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text(
+            'Elevation',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -205,7 +216,10 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 20),
 
           // Item Height
-          const Text('Item Height', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text(
+            'Item Height',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -229,7 +243,10 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 20),
 
           // Min Width
-          const Text('Min Width', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text(
+            'Min Width',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -256,7 +273,10 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 20),
 
           // Max Width
-          const Text('Max Width', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text(
+            'Max Width',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -286,7 +306,9 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
   }
 
   Widget _colorButton(Color color, String label, {bool isTextColor = false}) {
-    final isSelected = isTextColor ? _textColor == color : _backgroundColor == color;
+    final isSelected = isTextColor
+        ? _textColor == color
+        : _backgroundColor == color;
 
     return GestureDetector(
       onTap: () {
@@ -299,7 +321,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
             } else {
               _hoverColor = _backgroundColor == Colors.white
                   ? const Color(0xFFE0E0E0)
-                  : Colors.white.withOpacity(0.1);
+                  : Colors.white.withValues(alpha: 0.1);
             }
           } else {
             _backgroundColor = color;
@@ -307,7 +329,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
             if (color == Colors.white) {
               _hoverColor = const Color(0xFFE0E0E0);
             } else {
-              _hoverColor = Colors.white.withOpacity(0.1);
+              _hoverColor = Colors.white.withValues(alpha: 0.1);
             }
           }
         });
@@ -411,7 +433,9 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
                 minWidth: _minWidth,
                 maxWidth: _maxWidth,
                 animationBuilder: _selectedAnimation,
-                animationDuration: Duration(milliseconds: _animationDuration.toInt()),
+                animationDuration: Duration(
+                  milliseconds: _animationDuration.toInt(),
+                ),
               ),
             );
           },
@@ -419,11 +443,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.mouse,
-                  size: 64,
-                  color: Colors.grey.shade400,
-                ),
+                Icon(Icons.mouse, size: 64, color: Colors.grey.shade400),
                 const SizedBox(height: 20),
                 const Text(
                   'Playground Area',
@@ -442,7 +462,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),

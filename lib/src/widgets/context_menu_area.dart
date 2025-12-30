@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 /// Defines the area where context menus can be displayed.
 ///
@@ -21,8 +20,8 @@ class ContextMenuArea extends StatefulWidget {
   /// Returns null if no [ContextMenuArea] is found or if the RenderBox
   /// is not yet laid out.
   static Rect? of(BuildContext context) {
-    final provider = context
-        .dependOnInheritedWidgetOfExactType<_ContextMenuAreaProvider>();
+    final provider =
+        context.dependOnInheritedWidgetOfExactType<_ContextMenuAreaProvider>();
     return provider?.getAreaBounds();
   }
 }
