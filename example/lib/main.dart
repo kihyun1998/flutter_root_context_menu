@@ -41,6 +41,8 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
   Color _textColor = Colors.black;
   double _elevation = 8.0;
   double _itemHeight = 40.0;
+  double _minWidth = 180.0;
+  double _maxWidth = 280.0;
 
   // Last action
   String _lastAction = 'Right-click in the playground area';
@@ -224,6 +226,60 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
               Text(_itemHeight.toInt().toString()),
             ],
           ),
+          const SizedBox(height: 20),
+
+          // Min Width
+          const Text('Min Width', style: TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _minWidth,
+                  min: 100,
+                  max: 400,
+                  divisions: 30,
+                  label: _minWidth.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _minWidth = value;
+                      if (_minWidth > _maxWidth) {
+                        _maxWidth = _minWidth;
+                      }
+                    });
+                  },
+                ),
+              ),
+              Text(_minWidth.toInt().toString()),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Max Width
+          const Text('Max Width', style: TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _maxWidth,
+                  min: 100,
+                  max: 400,
+                  divisions: 30,
+                  label: _maxWidth.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _maxWidth = value;
+                      if (_maxWidth < _minWidth) {
+                        _minWidth = _maxWidth;
+                      }
+                    });
+                  },
+                ),
+              ),
+              Text(_maxWidth.toInt().toString()),
+            ],
+          ),
         ],
       ),
     );
@@ -352,6 +408,8 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
                 textStyle: TextStyle(color: _textColor, fontSize: 14),
                 elevation: _elevation,
                 itemHeight: _itemHeight,
+                minWidth: _minWidth,
+                maxWidth: _maxWidth,
                 animationBuilder: _selectedAnimation,
                 animationDuration: Duration(milliseconds: _animationDuration.toInt()),
               ),

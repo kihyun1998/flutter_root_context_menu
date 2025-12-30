@@ -15,6 +15,12 @@ class ContextMenuConfig {
   /// Height of each menu item.
   final double itemHeight;
 
+  /// Minimum width of the menu.
+  final double minWidth;
+
+  /// Maximum width of the menu.
+  final double maxWidth;
+
   /// Padding inside each menu item.
   final EdgeInsets itemPadding;
 
@@ -47,6 +53,8 @@ class ContextMenuConfig {
     this.hoverColor = const Color(0xFFE0E0E0),
     this.textStyle = const TextStyle(fontSize: 14),
     this.itemHeight = 40.0,
+    this.minWidth = 180.0,
+    this.maxWidth = 280.0,
     this.itemPadding = const EdgeInsets.symmetric(horizontal: 16.0),
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
     this.elevation = 8.0,

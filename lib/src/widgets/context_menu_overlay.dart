@@ -23,10 +23,8 @@ class ContextMenuOverlay extends StatelessWidget {
   /// Calculates the menu size based on items.
   Size _calculateMenuSize() {
     // Approximate menu size
-    // Width: min 180, max 280
+    // Width: from config
     // Height: number of items * item height + dividers
-    const double minWidth = 180.0;
-    const double maxWidth = 280.0;
 
     int dividerCount = items.where((item) => item.isDivider).length;
     int normalItemCount = items.length - dividerCount;
@@ -34,7 +32,7 @@ class ContextMenuOverlay extends StatelessWidget {
     double height =
         (normalItemCount * config.itemHeight) + dividerCount.toDouble();
 
-    return Size(maxWidth, height);
+    return Size(config.maxWidth, height);
   }
 
   @override
@@ -66,7 +64,10 @@ class ContextMenuOverlay extends StatelessWidget {
           borderRadius: config.borderRadius,
           color: config.backgroundColor,
           child: Container(
-            constraints: const BoxConstraints(minWidth: 180, maxWidth: 280),
+            constraints: BoxConstraints(
+              minWidth: config.minWidth,
+              maxWidth: config.maxWidth,
+            ),
             child: IntrinsicWidth(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
