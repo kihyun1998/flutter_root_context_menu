@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../models/context_menu_animation.dart';
 import '../models/context_menu_config.dart';
 import '../models/context_menu_item.dart';
 import '../utils/menu_position_calculator.dart';
@@ -56,14 +56,10 @@ class ContextMenuOverlay extends StatelessWidget {
         tween: Tween(begin: 0.0, end: 1.0),
         duration: config.animationDuration,
         builder: (context, value, child) {
-          return Opacity(
-            opacity: value,
-            child: Transform.scale(
-              scale: 0.9 + (0.1 * value),
-              alignment: Alignment.topLeft,
-              child: child,
-            ),
-          );
+          // Use custom animation builder if provided, otherwise use default popup
+          final animationBuilder =
+              config.animationBuilder ?? ContextMenuAnimations.popup;
+          return animationBuilder(value, child!);
         },
         child: Material(
           elevation: config.elevation,

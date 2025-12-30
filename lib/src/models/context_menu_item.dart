@@ -5,8 +5,14 @@ class ContextMenuItem {
   /// The label text displayed for this menu item.
   final String label;
 
-  /// Optional icon displayed before the label.
-  final IconData? icon;
+  /// Optional icon widget displayed before the label.
+  ///
+  /// Can be any widget like [Icon], [SvgPicture], or custom widgets.
+  /// For standard Material icons:
+  /// ```dart
+  /// icon: Icon(Icons.copy, size: 18)
+  /// ```
+  final Widget? icon;
 
   /// Callback function executed when the item is tapped.
   final VoidCallback? onTap;

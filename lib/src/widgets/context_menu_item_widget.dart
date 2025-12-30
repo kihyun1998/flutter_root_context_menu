@@ -47,12 +47,9 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
           child: Row(
             children: [
               if (widget.item.icon != null) ...[
-                Icon(
-                  widget.item.icon,
-                  size: 18,
-                  color: widget.item.enabled
-                      ? (widget.item.textColor ?? Colors.black)
-                      : Colors.grey,
+                Opacity(
+                  opacity: widget.item.enabled ? 1.0 : 0.4,
+                  child: widget.item.icon,
                 ),
                 const SizedBox(width: 12),
               ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'context_menu_animation.dart';
 
 /// Configuration for context menu appearance and behavior.
 class ContextMenuConfig {
@@ -26,6 +27,20 @@ class ContextMenuConfig {
   /// Duration of the menu appearance animation.
   final Duration animationDuration;
 
+  /// Custom animation builder for the menu appearance.
+  ///
+  /// If null, uses the default popup animation ([ContextMenuAnimations.popup]).
+  /// You can use pre-defined animations from [ContextMenuAnimations] or
+  /// create your own custom animation.
+  ///
+  /// Example:
+  /// ```dart
+  /// ContextMenuConfig(
+  ///   animationBuilder: ContextMenuAnimations.fade,
+  /// )
+  /// ```
+  final ContextMenuAnimationBuilder? animationBuilder;
+
   /// Creates a context menu configuration with customizable styling.
   const ContextMenuConfig({
     this.backgroundColor = Colors.white,
@@ -36,5 +51,6 @@ class ContextMenuConfig {
     this.borderRadius = const BorderRadius.all(Radius.circular(8.0)),
     this.elevation = 8.0,
     this.animationDuration = const Duration(milliseconds: 200),
+    this.animationBuilder,
   });
 }
