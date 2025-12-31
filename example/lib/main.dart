@@ -316,10 +316,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 12),
 
           // Padding Top
-          const Text(
-            'Top',
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
+          const Text('Top', style: TextStyle(fontWeight: FontWeight.w500)),
           const SizedBox(height: 4),
           Row(
             children: [
@@ -343,10 +340,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 12),
 
           // Padding Bottom
-          const Text(
-            'Bottom',
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
+          const Text('Bottom', style: TextStyle(fontWeight: FontWeight.w500)),
           const SizedBox(height: 4),
           Row(
             children: [
@@ -370,10 +364,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 12),
 
           // Padding Left
-          const Text(
-            'Left',
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
+          const Text('Left', style: TextStyle(fontWeight: FontWeight.w500)),
           const SizedBox(height: 4),
           Row(
             children: [
@@ -397,10 +388,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
           const SizedBox(height: 12),
 
           // Padding Right
-          const Text(
-            'Right',
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
+          const Text('Right', style: TextStyle(fontWeight: FontWeight.w500)),
           const SizedBox(height: 4),
           Row(
             children: [
