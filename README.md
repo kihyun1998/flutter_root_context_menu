@@ -19,7 +19,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_root_context_menu: ^0.2.0
+  flutter_root_context_menu: ^0.3.0
 ```
 
 ## Usage
@@ -162,6 +162,10 @@ ContextMenuConfig(
   animationDuration: Duration(milliseconds: 200),
   animationBuilder: ContextMenuAnimations.popup,
   screenPadding: EdgeInsets.zero,      // Padding from screen edges
+  itemBorderRadius: BorderRadius.zero, // Border radius for item backgrounds
+  itemMargin: EdgeInsets.zero,         // Margin around items
+  dividerMargin: EdgeInsets.zero,      // Margin around dividers
+  menuPadding: EdgeInsets.zero,        // Padding inside menu container
 )
 ```
 

@@ -1,3 +1,12 @@
+## 0.3.0
+
+- **feat**: Add `itemBorderRadius` for rounded corners on menu item hover backgrounds
+- **feat**: Add `itemMargin` for spacing around individual menu items
+- **feat**: Add `dividerMargin` for vertical spacing around dividers
+- **feat**: Add `menuPadding` for padding inside menu container
+- **feat**: Add playground controls for all new styling options
+- **fix**: Improve menu size calculation to include all margins and paddings
+
 ## 0.2.0
 
 - **feat**: Add `screenPadding` parameter to control minimum distance from screen edges
