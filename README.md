@@ -146,6 +146,37 @@ config: ContextMenuConfig(
 )
 ```
 
+## Auto-close on Route Changes
+
+To automatically close context menus when navigating between screens, add `ContextMenuRouteObserver` to your `MaterialApp`:
+
+```dart
+MaterialApp(
+  navigatorObservers: [
+    ContextMenuRouteObserver(),
+  ],
+  home: MyHomePage(),
+)
+```
+
+This ensures menus are closed when:
+- A new screen is pushed (`Navigator.push`)
+- Going back to previous screen (`Navigator.pop`)
+- Replacing routes (`Navigator.pushReplacement`)
+- Removing routes
+
+## Manual Control
+
+You can also manually control the menu:
+
+```dart
+// Close the menu programmatically
+RootContextMenuController().hideMenu();
+
+// Check if a menu is currently open
+bool isOpen = RootContextMenuController().isMenuOpen;
+```
+
 ## Configuration Options
 
 ```dart
