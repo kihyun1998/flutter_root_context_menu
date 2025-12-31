@@ -19,7 +19,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_root_context_menu: ^0.1.0
+  flutter_root_context_menu: ^0.2.0
 ```
 
 ## Usage
@@ -111,6 +111,17 @@ showContextMenu(
 );
 ```
 
+### Screen Padding
+
+```dart
+showContextMenu(
+  config: ContextMenuConfig(
+    screenPadding: EdgeInsets.only(bottom: 10),
+  ),
+  items: [...],
+);
+```
+
 ## Available Animations
 
 - `ContextMenuAnimations.popup` - Scale + fade (default)
@@ -150,6 +161,7 @@ ContextMenuConfig(
   elevation: 8.0,                      // Shadow elevation
   animationDuration: Duration(milliseconds: 200),
   animationBuilder: ContextMenuAnimations.popup,
+  screenPadding: EdgeInsets.zero,      // Padding from screen edges
 )
 ```
 

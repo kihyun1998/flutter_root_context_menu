@@ -1,3 +1,8 @@
+## 0.2.0
+
+- **feat**: Add `screenPadding` parameter to control minimum distance from screen edges
+- **feat**: Add playground controls for adjusting screen padding in real-time
+
 ## 0.1.0
 
 Initial release with core features:
