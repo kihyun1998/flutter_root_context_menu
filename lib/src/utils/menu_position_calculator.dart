@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 /// Utility class for calculating menu position with overflow handling.
 class MenuPositionCalculator {
@@ -8,6 +8,10 @@ class MenuPositionCalculator {
   /// the [menuSize], and optional [areaConstraints] to ensure the menu
   /// stays within bounds.
   ///
+  /// The [padding] parameter allows specifying minimum distance from
+  /// screen edges. For example, `EdgeInsets.only(bottom: 10)` will ensure
+  /// the menu stays at least 10px away from the bottom edge.
+  ///
   /// If the menu would overflow the area boundaries, it automatically
   /// adjusts the position to keep the entire menu visible.
   static Offset calculate({
@@ -15,6 +19,7 @@ class MenuPositionCalculator {
     required Size menuSize,
     required Size screenSize,
     Rect? areaConstraints,
+    EdgeInsets padding = EdgeInsets.zero,
   }) {
     // Use area constraints if provided, otherwise use full screen
     final effectiveArea = areaConstraints ??
@@ -23,24 +28,24 @@ class MenuPositionCalculator {
     double left = position.dx;
     double top = position.dy;
 
-    // Check right overflow
-    if (left + menuSize.width > effectiveArea.right) {
-      left = effectiveArea.right - menuSize.width;
+    // Check right overflow (with padding)
+    if (left + menuSize.width > effectiveArea.right - padding.right) {
+      left = effectiveArea.right - menuSize.width - padding.right;
     }
 
-    // Check bottom overflow
-    if (top + menuSize.height > effectiveArea.bottom) {
-      top = effectiveArea.bottom - menuSize.height;
+    // Check bottom overflow (with padding)
+    if (top + menuSize.height > effectiveArea.bottom - padding.bottom) {
+      top = effectiveArea.bottom - menuSize.height - padding.bottom;
     }
 
-    // Check left boundary
-    if (left < effectiveArea.left) {
-      left = effectiveArea.left;
+    // Check left boundary (with padding)
+    if (left < effectiveArea.left + padding.left) {
+      left = effectiveArea.left + padding.left;
     }
 
-    // Check top boundary
-    if (top < effectiveArea.top) {
-      top = effectiveArea.top;
+    // Check top boundary (with padding)
+    if (top < effectiveArea.top + padding.top) {
+      top = effectiveArea.top + padding.top;
     }
 
     return Offset(left, top);

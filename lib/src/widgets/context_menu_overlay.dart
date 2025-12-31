@@ -45,6 +45,7 @@ class ContextMenuOverlay extends StatelessWidget {
       menuSize: menuSize,
       screenSize: screenSize,
       areaConstraints: areaConstraints,
+      padding: config.screenPadding,
     );
 
     return Positioned(

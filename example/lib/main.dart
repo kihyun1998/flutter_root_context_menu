@@ -43,6 +43,12 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
   double _minWidth = 180.0;
   double _maxWidth = 280.0;
 
+  // Screen padding settings
+  double _paddingTop = 0;
+  double _paddingBottom = 10;
+  double _paddingLeft = 0;
+  double _paddingRight = 0;
+
   // Last action
   String _lastAction = 'Right-click in the playground area';
 
@@ -300,6 +306,121 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
               Text(_maxWidth.toInt().toString()),
             ],
           ),
+          const SizedBox(height: 20),
+
+          // Screen Padding Section
+          const Text(
+            'Screen Padding',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+
+          // Padding Top
+          const Text(
+            'Top',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _paddingTop,
+                  min: 0,
+                  max: 100,
+                  divisions: 20,
+                  label: _paddingTop.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _paddingTop = value;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 40, child: Text('${_paddingTop.toInt()}px')),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Padding Bottom
+          const Text(
+            'Bottom',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _paddingBottom,
+                  min: 0,
+                  max: 100,
+                  divisions: 20,
+                  label: _paddingBottom.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _paddingBottom = value;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 40, child: Text('${_paddingBottom.toInt()}px')),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Padding Left
+          const Text(
+            'Left',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _paddingLeft,
+                  min: 0,
+                  max: 100,
+                  divisions: 20,
+                  label: _paddingLeft.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _paddingLeft = value;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 40, child: Text('${_paddingLeft.toInt()}px')),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Padding Right
+          const Text(
+            'Right',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _paddingRight,
+                  min: 0,
+                  max: 100,
+                  divisions: 20,
+                  label: _paddingRight.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _paddingRight = value;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 40, child: Text('${_paddingRight.toInt()}px')),
+            ],
+          ),
         ],
       ),
     );
@@ -435,6 +556,12 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
                 animationBuilder: _selectedAnimation,
                 animationDuration: Duration(
                   milliseconds: _animationDuration.toInt(),
+                ),
+                screenPadding: EdgeInsets.only(
+                  top: _paddingTop,
+                  bottom: _paddingBottom,
+                  left: _paddingLeft,
+                  right: _paddingRight,
                 ),
               ),
             );

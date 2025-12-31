@@ -47,6 +47,19 @@ class ContextMenuConfig {
   /// ```
   final ContextMenuAnimationBuilder? animationBuilder;
 
+  /// Padding from screen edges to prevent menu from touching boundaries.
+  ///
+  /// This ensures the menu maintains a minimum distance from screen edges.
+  /// Useful for providing visual breathing room.
+  ///
+  /// Example:
+  /// ```dart
+  /// ContextMenuConfig(
+  ///   screenPadding: EdgeInsets.only(bottom: 10),
+  /// )
+  /// ```
+  final EdgeInsets screenPadding;
+
   /// Creates a context menu configuration with customizable styling.
   const ContextMenuConfig({
     this.backgroundColor = Colors.white,
@@ -60,5 +73,6 @@ class ContextMenuConfig {
     this.elevation = 8.0,
     this.animationDuration = const Duration(milliseconds: 200),
     this.animationBuilder,
+    this.screenPadding = EdgeInsets.zero,
   });
 }
