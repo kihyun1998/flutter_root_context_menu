@@ -49,6 +49,16 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
   double _paddingLeft = 0;
   double _paddingRight = 0;
 
+  // Item styling settings
+  double _itemBorderRadius = 0;
+  double _itemMarginHorizontal = 0;
+  double _itemMarginVertical = 0;
+
+  // Divider and menu styling settings
+  double _dividerMarginVertical = 0;
+  double _menuPaddingHorizontal = 0;
+  double _menuPaddingVertical = 0;
+
   // Last action
   String _lastAction = 'Right-click in the playground area';
 
@@ -409,6 +419,182 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
               SizedBox(width: 40, child: Text('${_paddingRight.toInt()}px')),
             ],
           ),
+          const SizedBox(height: 20),
+
+          // Item Styling Section
+          const Text(
+            'Item Styling',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+
+          // Item Border Radius
+          const Text(
+            'Border Radius',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _itemBorderRadius,
+                  min: 0,
+                  max: 20,
+                  divisions: 20,
+                  label: _itemBorderRadius.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _itemBorderRadius = value;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 40, child: Text('${_itemBorderRadius.toInt()}px')),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Item Margin Horizontal
+          const Text(
+            'Margin Horizontal',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _itemMarginHorizontal,
+                  min: 0,
+                  max: 20,
+                  divisions: 20,
+                  label: _itemMarginHorizontal.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _itemMarginHorizontal = value;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 40, child: Text('${_itemMarginHorizontal.toInt()}px')),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Item Margin Vertical
+          const Text(
+            'Margin Vertical',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _itemMarginVertical,
+                  min: 0,
+                  max: 10,
+                  divisions: 20,
+                  label: _itemMarginVertical.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _itemMarginVertical = value;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 40, child: Text('${_itemMarginVertical.toInt()}px')),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Divider & Menu Section
+          const Text(
+            'Divider & Menu',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+
+          // Divider Margin Vertical
+          const Text(
+            'Divider Margin Vertical',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _dividerMarginVertical,
+                  min: 0,
+                  max: 20,
+                  divisions: 20,
+                  label: _dividerMarginVertical.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _dividerMarginVertical = value;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 40, child: Text('${_dividerMarginVertical.toInt()}px')),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Menu Padding Horizontal
+          const Text(
+            'Menu Padding Horizontal',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _menuPaddingHorizontal,
+                  min: 0,
+                  max: 20,
+                  divisions: 20,
+                  label: _menuPaddingHorizontal.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _menuPaddingHorizontal = value;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 40, child: Text('${_menuPaddingHorizontal.toInt()}px')),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Menu Padding Vertical
+          const Text(
+            'Menu Padding Vertical',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: Slider(
+                  value: _menuPaddingVertical,
+                  min: 0,
+                  max: 20,
+                  divisions: 20,
+                  label: _menuPaddingVertical.toInt().toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      _menuPaddingVertical = value;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 40, child: Text('${_menuPaddingVertical.toInt()}px')),
+            ],
+          ),
         ],
       ),
     );
@@ -550,6 +736,18 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
                   bottom: _paddingBottom,
                   left: _paddingLeft,
                   right: _paddingRight,
+                ),
+                itemBorderRadius: BorderRadius.circular(_itemBorderRadius),
+                itemMargin: EdgeInsets.symmetric(
+                  horizontal: _itemMarginHorizontal,
+                  vertical: _itemMarginVertical,
+                ),
+                dividerMargin: EdgeInsets.symmetric(
+                  vertical: _dividerMarginVertical,
+                ),
+                menuPadding: EdgeInsets.symmetric(
+                  horizontal: _menuPaddingHorizontal,
+                  vertical: _menuPaddingVertical,
                 ),
               ),
             );

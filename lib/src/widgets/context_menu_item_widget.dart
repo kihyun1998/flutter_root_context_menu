@@ -25,45 +25,54 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
   Widget build(BuildContext context) {
     // Render divider
     if (widget.item.isDivider) {
-      return const Divider(height: 1, thickness: 1);
+      return Padding(
+        padding: widget.config.dividerMargin,
+        child: const Divider(height: 1, thickness: 1),
+      );
     }
 
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: InkWell(
-        onTap: widget.item.enabled
-            ? () {
-                widget.item.onTap?.call();
-                RootContextMenuController().hideMenu();
-              }
-            : null,
-        child: Container(
-          height: widget.config.itemHeight,
-          padding: widget.config.itemPadding,
-          color: _isHovered && widget.item.enabled
-              ? widget.config.hoverColor
+    return Padding(
+      padding: widget.config.itemMargin,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        child: InkWell(
+          onTap: widget.item.enabled
+              ? () {
+                  widget.item.onTap?.call();
+                  RootContextMenuController().hideMenu();
+                }
               : null,
-          child: Row(
-            children: [
-              if (widget.item.icon != null) ...[
-                Opacity(
-                  opacity: widget.item.enabled ? 1.0 : 0.4,
-                  child: widget.item.icon,
-                ),
-                const SizedBox(width: 12),
-              ],
-              Expanded(
-                child: Text(
-                  widget.item.label,
-                  style: widget.config.textStyle.copyWith(
-                    color: widget.item.enabled
-                        ? widget.item.textColor
-                        : Colors.grey,
+          child: Container(
+            height: widget.config.itemHeight,
+            padding: widget.config.itemPadding,
+            decoration: BoxDecoration(
+              color: _isHovered && widget.item.enabled
+                  ? widget.config.hoverColor
+                  : null,
+              borderRadius: widget.config.itemBorderRadius,
+            ),
+            child: Row(
+              children: [
+                if (widget.item.icon != null) ...[
+                  Opacity(
+                    opacity: widget.item.enabled ? 1.0 : 0.4,
+                    child: widget.item.icon,
+                  ),
+                  const SizedBox(width: 12),
+                ],
+                Expanded(
+                  child: Text(
+                    widget.item.label,
+                    style: widget.config.textStyle.copyWith(
+                      color: widget.item.enabled
+                          ? widget.item.textColor
+                          : Colors.grey,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

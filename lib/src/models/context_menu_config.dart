@@ -60,6 +60,58 @@ class ContextMenuConfig {
   /// ```
   final EdgeInsets screenPadding;
 
+  /// Border radius for individual menu items.
+  ///
+  /// Applies rounded corners to menu item backgrounds, especially visible
+  /// when items are hovered.
+  ///
+  /// Example:
+  /// ```dart
+  /// ContextMenuConfig(
+  ///   itemBorderRadius: BorderRadius.circular(6),
+  /// )
+  /// ```
+  final BorderRadius itemBorderRadius;
+
+  /// Margin around individual menu items.
+  ///
+  /// Creates spacing between the item's interactive area and the menu edges,
+  /// giving a more compact and refined appearance.
+  ///
+  /// Example:
+  /// ```dart
+  /// ContextMenuConfig(
+  ///   itemMargin: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+  /// )
+  /// ```
+  final EdgeInsets itemMargin;
+
+  /// Vertical margin around dividers.
+  ///
+  /// Creates spacing above and below dividers, separating them from
+  /// adjacent menu items.
+  ///
+  /// Example:
+  /// ```dart
+  /// ContextMenuConfig(
+  ///   dividerMargin: EdgeInsets.symmetric(vertical: 4),
+  /// )
+  /// ```
+  final EdgeInsets dividerMargin;
+
+  /// Padding inside the menu container.
+  ///
+  /// Creates spacing between the menu's edge and its contents (items).
+  /// This padding is applied to the entire menu container.
+  ///
+  /// Example:
+  /// ```dart
+  /// ContextMenuConfig(
+  ///   menuPadding: EdgeInsets.symmetric(vertical: 8),
+  /// )
+  /// ```
+  final EdgeInsets menuPadding;
+
   /// Creates a context menu configuration with customizable styling.
   const ContextMenuConfig({
     this.backgroundColor = Colors.white,
@@ -74,5 +126,9 @@ class ContextMenuConfig {
     this.animationDuration = const Duration(milliseconds: 200),
     this.animationBuilder,
     this.screenPadding = EdgeInsets.zero,
+    this.itemBorderRadius = BorderRadius.zero,
+    this.itemMargin = EdgeInsets.zero,
+    this.dividerMargin = EdgeInsets.zero,
+    this.menuPadding = EdgeInsets.zero,
   });
 }
