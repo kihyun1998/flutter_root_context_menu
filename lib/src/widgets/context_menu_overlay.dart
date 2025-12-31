@@ -32,20 +32,23 @@ class ContextMenuOverlay extends StatelessWidget {
     // - Dividers: divider height (1px) + vertical margins
     // - Menu padding: top + bottom
     double itemsHeight = normalItemCount * config.itemHeight;
-    double itemMarginsHeight = normalItemCount *
-        (config.itemMargin.top + config.itemMargin.bottom);
+    double itemMarginsHeight =
+        normalItemCount * (config.itemMargin.top + config.itemMargin.bottom);
 
     double dividersHeight = dividerCount * 1.0; // Divider height is 1px
-    double dividerMarginsHeight = dividerCount *
-        (config.dividerMargin.top + config.dividerMargin.bottom);
+    double dividerMarginsHeight =
+        dividerCount * (config.dividerMargin.top + config.dividerMargin.bottom);
 
-    double height = itemsHeight + itemMarginsHeight +
-        dividersHeight + dividerMarginsHeight +
-        config.menuPadding.top + config.menuPadding.bottom;
+    double height = itemsHeight +
+        itemMarginsHeight +
+        dividersHeight +
+        dividerMarginsHeight +
+        config.menuPadding.top +
+        config.menuPadding.bottom;
 
     // Width calculation: maxWidth + horizontal menu padding
-    double width = config.maxWidth +
-        config.menuPadding.left + config.menuPadding.right;
+    double width =
+        config.maxWidth + config.menuPadding.left + config.menuPadding.right;
 
     return Size(width, height);
   }
