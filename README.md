@@ -30,11 +30,12 @@ dependencies:
 import 'package:flutter/material.dart';
 import 'package:flutter_root_context_menu/flutter_root_context_menu.dart';
 
+// Recommended: Use builder parameter for correct context handling
 ContextMenuArea(
-  child: GestureDetector(
+  builder: (context) => GestureDetector(
     onSecondaryTapDown: (details) {
       showContextMenu(
-        context: context,
+        context: context,  // This context is inside ContextMenuArea
         position: details.globalPosition,
         items: [
           ContextMenuItem(
@@ -124,18 +125,20 @@ showContextMenu(
 
 ## Area Constraints
 
-Use `ContextMenuArea` to constrain the menu within a specific region. The menu will automatically reposition to stay inside this area:
+Use `ContextMenuArea` to constrain the menu within a specific region. The menu will automatically reposition to stay inside this area.
+
+### Using builder (Recommended)
 
 ```dart
 ContextMenuArea(
-  child: Container(
+  builder: (context) => Container(
     width: 400,
     height: 300,
     color: Colors.grey[200],
     child: GestureDetector(
       onSecondaryTapDown: (details) {
         showContextMenu(
-          context: context,
+          context: context,  // Uses the context provided by builder
           position: details.globalPosition,
           items: [...],
         );
@@ -144,6 +147,34 @@ ContextMenuArea(
     ),
   ),
 )
+```
+
+### Using child with separated widget
+
+When your menu widget is separated into its own class, you can use the `child` parameter:
+
+```dart
+// Parent widget
+ContextMenuArea(
+  child: MyCustomWidget(),
+)
+
+// Separated widget - can use its own context
+class MyCustomWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onSecondaryTapDown: (details) {
+        showContextMenu(
+          context: context,  // This context finds ContextMenuArea ancestor
+          position: details.globalPosition,
+          items: [...],
+        );
+      },
+      child: Container(...),
+    );
+  }
+}
 ```
 
 When the menu would overflow the `ContextMenuArea` bounds, it automatically repositions to stay inside.

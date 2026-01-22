@@ -4,13 +4,52 @@ import 'package:flutter/material.dart';
 ///
 /// This widget automatically calculates its bounds and provides them
 /// to descendant widgets through an InheritedWidget.
+///
+/// You can use either [child] or [builder]:
+/// - [child]: Simple usage, but you must ensure the correct context is passed
+///   to [showContextMenu] (e.g., using a [Builder] widget).
+/// - [builder]: Recommended. Provides the correct context automatically.
+///
+/// Example with builder:
+/// ```dart
+/// ContextMenuArea(
+///   builder: (context) => GestureDetector(
+///     onSecondaryTapDown: (details) {
+///       showContextMenu(
+///         context: context,  // This context is inside ContextMenuArea
+///         position: details.globalPosition,
+///         items: [...],
+///       );
+///     },
+///     child: YourWidget(),
+///   ),
+/// )
+/// ```
 class ContextMenuArea extends StatefulWidget {
-  final Widget child;
+  /// The child widget. Use this for simple cases.
+  ///
+  /// Note: When using [child], ensure you pass the correct context to
+  /// [showContextMenu]. The context must be from inside this [ContextMenuArea].
+  final Widget? child;
+
+  /// Builder that provides the correct context for [showContextMenu].
+  ///
+  /// This is the recommended way to use [ContextMenuArea] as it ensures
+  /// the menu respects the area boundaries.
+  final Widget Function(BuildContext context)? builder;
 
   const ContextMenuArea({
     super.key,
-    required this.child,
-  });
+    this.child,
+    this.builder,
+  })  : assert(
+          child != null || builder != null,
+          'Either child or builder must be provided',
+        ),
+        assert(
+          child == null || builder == null,
+          'Cannot provide both child and builder',
+        );
 
   @override
   State<ContextMenuArea> createState() => _ContextMenuAreaState();
@@ -35,7 +74,9 @@ class _ContextMenuAreaState extends State<ContextMenuArea> {
       areaKey: _key,
       child: Container(
         key: _key,
-        child: widget.child,
+        child: widget.builder != null
+            ? Builder(builder: widget.builder!)
+            : widget.child,
       ),
     );
   }

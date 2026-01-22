@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_root_context_menu/flutter_root_context_menu.dart';
 
+import 'playground_content.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -678,195 +680,45 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.red, width: 2),
         ),
+        // ContextMenuArea wraps the separated widget
+        // PlaygroundContent can use its own context since it's inside ContextMenuArea
         child: ContextMenuArea(
-          child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onSecondaryTapDown: (details) {
-            showContextMenu(
-              context: context,
-              position: details.globalPosition,
-              items: [
-                ContextMenuItem(
-                  label: 'Copy',
-                  icon: const Icon(Icons.copy, size: 18),
-                  onTap: () {
-                    setState(() {
-                      _lastAction = 'Copy clicked';
-                    });
-                  },
-                ),
-                ContextMenuItem(
-                  label: 'Paste',
-                  icon: const Icon(Icons.paste, size: 18),
-                  onTap: () {
-                    setState(() {
-                      _lastAction = 'Paste clicked';
-                    });
-                  },
-                ),
-                ContextMenuItem(
-                  label: 'Cut',
-                  icon: const Icon(Icons.cut, size: 18),
-                  onTap: () {
-                    setState(() {
-                      _lastAction = 'Cut clicked';
-                    });
-                  },
-                ),
-                ContextMenuItem.divider(),
-                ContextMenuItem(
-                  label: 'Select All',
-                  icon: const Icon(Icons.select_all, size: 18),
-                  onTap: () {
-                    setState(() {
-                      _lastAction = 'Select All clicked';
-                    });
-                  },
-                ),
-                ContextMenuItem(
-                  label: 'Refresh',
-                  icon: const Icon(Icons.refresh, size: 18),
-                  onTap: () {
-                    setState(() {
-                      _lastAction = 'Refresh clicked';
-                    });
-                  },
-                ),
-                ContextMenuItem.divider(),
-                ContextMenuItem(
-                  label: 'Delete',
-                  icon: const Icon(Icons.delete, size: 18),
-                  textColor: Colors.red,
-                  onTap: () {
-                    setState(() {
-                      _lastAction = 'Delete clicked';
-                    });
-                  },
-                ),
-                ContextMenuItem.divider(),
-                ContextMenuItem(
-                  label: 'Open New Screen',
-                  icon: const Icon(Icons.open_in_new, size: 18),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SecondPage(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-              config: ContextMenuConfig(
-                backgroundColor: _backgroundColor,
-                hoverColor: _hoverColor,
-                textStyle: TextStyle(color: _textColor, fontSize: 14),
-                elevation: _elevation,
-                itemHeight: _itemHeight,
-                minWidth: _minWidth,
-                maxWidth: _maxWidth,
-                animationBuilder: _selectedAnimation,
-                animationDuration: Duration(
-                  milliseconds: _animationDuration.toInt(),
-                ),
-                screenPadding: EdgeInsets.only(
-                  top: _paddingTop,
-                  bottom: _paddingBottom,
-                  left: _paddingLeft,
-                  right: _paddingRight,
-                ),
-                itemBorderRadius: BorderRadius.circular(_itemBorderRadius),
-                itemMargin: EdgeInsets.symmetric(
-                  horizontal: _itemMarginHorizontal,
-                  vertical: _itemMarginVertical,
-                ),
-                dividerMargin: EdgeInsets.symmetric(
-                  vertical: _dividerMarginVertical,
-                ),
-                menuPadding: EdgeInsets.symmetric(
-                  horizontal: _menuPaddingHorizontal,
-                  vertical: _menuPaddingVertical,
-                ),
+          child: PlaygroundContent(
+            lastAction: _lastAction,
+            onActionChanged: (action) => setState(() => _lastAction = action),
+            config: ContextMenuConfig(
+              backgroundColor: _backgroundColor,
+              hoverColor: _hoverColor,
+              textStyle: TextStyle(color: _textColor, fontSize: 14),
+              elevation: _elevation,
+              itemHeight: _itemHeight,
+              minWidth: _minWidth,
+              maxWidth: _maxWidth,
+              animationBuilder: _selectedAnimation,
+              animationDuration: Duration(
+                milliseconds: _animationDuration.toInt(),
               ),
-            );
-          },
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.mouse, size: 64, color: Colors.grey.shade400),
-                const SizedBox(height: 20),
-                const Text(
-                  'Playground Area',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Right-click anywhere here to test',
-                  style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
-                ),
-                const SizedBox(height: 30),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      const Text(
-                        'Last Action:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _lastAction,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade700,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SecondPage(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.navigation),
-                  label: const Text('Test Route Observer'),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Try: Open context menu, then click this button',
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+              screenPadding: EdgeInsets.only(
+                top: _paddingTop,
+                bottom: _paddingBottom,
+                left: _paddingLeft,
+                right: _paddingRight,
+              ),
+              itemBorderRadius: BorderRadius.circular(_itemBorderRadius),
+              itemMargin: EdgeInsets.symmetric(
+                horizontal: _itemMarginHorizontal,
+                vertical: _itemMarginVertical,
+              ),
+              dividerMargin: EdgeInsets.symmetric(
+                vertical: _dividerMarginVertical,
+              ),
+              menuPadding: EdgeInsets.symmetric(
+                horizontal: _menuPaddingHorizontal,
+                vertical: _menuPaddingVertical,
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }
