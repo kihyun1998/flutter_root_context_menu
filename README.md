@@ -122,6 +122,45 @@ showContextMenu(
 );
 ```
 
+## Area Constraints
+
+Use `ContextMenuArea` to constrain the menu within a specific region. The menu will automatically reposition to stay inside this area:
+
+```dart
+ContextMenuArea(
+  child: Container(
+    width: 400,
+    height: 300,
+    color: Colors.grey[200],
+    child: GestureDetector(
+      onSecondaryTapDown: (details) {
+        showContextMenu(
+          context: context,
+          position: details.globalPosition,
+          items: [...],
+        );
+      },
+      child: Center(child: Text('Menu stays within this area')),
+    ),
+  ),
+)
+```
+
+When the menu would overflow the `ContextMenuArea` bounds, it automatically repositions to stay inside.
+
+## Disabled Items
+
+You can disable menu items to make them non-interactive:
+
+```dart
+ContextMenuItem(
+  label: 'Cannot click this',
+  icon: Icon(Icons.block, size: 18),
+  enabled: false,  // Item is grayed out and not clickable
+  onTap: () => print('This won\'t be called'),
+)
+```
+
 ## Available Animations
 
 - `ContextMenuAnimations.popup` - Scale + fade (default)
@@ -197,6 +236,20 @@ ContextMenuConfig(
   itemMargin: EdgeInsets.zero,         // Margin around items
   dividerMargin: EdgeInsets.zero,      // Margin around dividers
   menuPadding: EdgeInsets.zero,        // Padding inside menu container
+)
+```
+
+### macOS-style Menu
+
+```dart
+ContextMenuConfig(
+  backgroundColor: Color(0xFFF5F5F5),
+  hoverColor: Colors.blue,
+  textStyle: TextStyle(fontSize: 13),
+  itemHeight: 32.0,
+  itemBorderRadius: BorderRadius.circular(4),
+  itemMargin: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+  menuPadding: EdgeInsets.symmetric(vertical: 6),
 )
 ```
 
