@@ -1,3 +1,9 @@
+## 0.3.1
+
+- **feat**: Add `iconWidth` and `iconSpacing` config options for precise icon sizing
+- **fix**: Menu width calculation now uses actual content width instead of always using maxWidth
+- **docs**: Add `ContextMenuArea` and disabled items documentation to README
+
 ## 0.3.0
 
 - **feat**: Add `itemBorderRadius` for rounded corners on menu item hover backgrounds

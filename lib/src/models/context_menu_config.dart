@@ -112,6 +112,26 @@ class ContextMenuConfig {
   /// ```
   final EdgeInsets menuPadding;
 
+  /// Width of icons in menu items.
+  ///
+  /// When set to a value > 0, icons will be constrained to this width
+  /// and used for accurate menu width calculation.
+  /// When 0 (default), icons use their natural size.
+  ///
+  /// Example:
+  /// ```dart
+  /// ContextMenuConfig(
+  ///   iconWidth: 18.0,
+  ///   iconSpacing: 12.0,
+  /// )
+  /// ```
+  final double iconWidth;
+
+  /// Spacing between icon and label text.
+  ///
+  /// Only applied when [iconWidth] > 0.
+  final double iconSpacing;
+
   /// Creates a context menu configuration with customizable styling.
   const ContextMenuConfig({
     this.backgroundColor = Colors.white,
@@ -130,5 +150,7 @@ class ContextMenuConfig {
     this.itemMargin = EdgeInsets.zero,
     this.dividerMargin = EdgeInsets.zero,
     this.menuPadding = EdgeInsets.zero,
+    this.iconWidth = 0,
+    this.iconSpacing = 0,
   });
 }

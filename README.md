@@ -19,7 +19,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_root_context_menu: ^0.3.0
+  flutter_root_context_menu: ^0.3.1
 ```
 
 ## Usage
@@ -236,6 +236,8 @@ ContextMenuConfig(
   itemMargin: EdgeInsets.zero,         // Margin around items
   dividerMargin: EdgeInsets.zero,      // Margin around dividers
   menuPadding: EdgeInsets.zero,        // Padding inside menu container
+  iconWidth: 0,                        // Icon width (0 = natural size)
+  iconSpacing: 0,                      // Spacing between icon and text
 )
 ```
 
@@ -250,6 +252,8 @@ ContextMenuConfig(
   itemBorderRadius: BorderRadius.circular(4),
   itemMargin: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
   menuPadding: EdgeInsets.symmetric(vertical: 6),
+  iconWidth: 16.0,
+  iconSpacing: 10.0,
 )
 ```
 

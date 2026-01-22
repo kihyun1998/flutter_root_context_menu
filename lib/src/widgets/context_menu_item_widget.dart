@@ -57,9 +57,15 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
                 if (widget.item.icon != null) ...[
                   Opacity(
                     opacity: widget.item.enabled ? 1.0 : 0.4,
-                    child: widget.item.icon,
+                    child: widget.config.iconWidth > 0
+                        ? SizedBox(
+                            width: widget.config.iconWidth,
+                            child: widget.item.icon,
+                          )
+                        : widget.item.icon,
                   ),
-                  const SizedBox(width: 12),
+                  if (widget.config.iconSpacing > 0)
+                    SizedBox(width: widget.config.iconSpacing),
                 ],
                 Expanded(
                   child: Text(

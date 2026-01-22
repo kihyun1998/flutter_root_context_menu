@@ -16,9 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      navigatorObservers: [
-        ContextMenuRouteObserver(),
-      ],
+      navigatorObservers: [ContextMenuRouteObserver()],
       home: const PlaygroundPage(),
     );
   }
@@ -675,8 +673,14 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
   Widget _buildPlayground() {
     return Container(
       color: Colors.grey.shade100,
-      child: ContextMenuArea(
-        child: GestureDetector(
+      padding: const EdgeInsets.all(40),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.red, width: 2),
+        ),
+        child: ContextMenuArea(
+          child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onSecondaryTapDown: (details) {
             showContextMenu(
               context: context,
@@ -855,16 +859,14 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
                 const SizedBox(height: 10),
                 Text(
                   'Try: Open context menu, then click this button',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade500,
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
                   textAlign: TextAlign.center,
                 ),
               ],
             ),
           ),
         ),
+      ),
       ),
     );
   }
@@ -923,10 +925,7 @@ class SecondPage extends StatelessWidget {
                   const SizedBox(height: 24),
                   const Text(
                     'Route Observer Test',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   Container(
@@ -949,7 +948,10 @@ class SecondPage extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.info_outline, color: Colors.blue.shade700),
+                            Icon(
+                              Icons.info_outline,
+                              color: Colors.blue.shade700,
+                            ),
                             const SizedBox(width: 8),
                             const Text(
                               'How to Test:',
@@ -961,25 +963,13 @@ class SecondPage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        _buildStep(
-                          '1',
-                          'Go back to the previous screen',
-                        ),
+                        _buildStep('1', 'Go back to the previous screen'),
                         const SizedBox(height: 8),
-                        _buildStep(
-                          '2',
-                          'Right-click to open the context menu',
-                        ),
+                        _buildStep('2', 'Right-click to open the context menu'),
                         const SizedBox(height: 8),
-                        _buildStep(
-                          '3',
-                          'Navigate here again (menu or button)',
-                        ),
+                        _buildStep('3', 'Navigate here again (menu or button)'),
                         const SizedBox(height: 8),
-                        _buildStep(
-                          '4',
-                          'Notice: Menu closes automatically!',
-                        ),
+                        _buildStep('4', 'Notice: Menu closes automatically!'),
                         const SizedBox(height: 16),
                         Container(
                           padding: const EdgeInsets.all(12),
@@ -990,7 +980,11 @@ class SecondPage extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.check, color: Colors.green.shade700, size: 20),
+                              Icon(
+                                Icons.check,
+                                color: Colors.green.shade700,
+                                size: 20,
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
@@ -1056,10 +1050,7 @@ class SecondPage extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(top: 2),
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 14),
-            ),
+            child: Text(text, style: const TextStyle(fontSize: 14)),
           ),
         ),
       ],

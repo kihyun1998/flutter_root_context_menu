@@ -46,11 +46,47 @@ class ContextMenuOverlay extends StatelessWidget {
         config.menuPadding.top +
         config.menuPadding.bottom;
 
-    // Width calculation: maxWidth + horizontal menu padding
-    double width =
-        config.maxWidth + config.menuPadding.left + config.menuPadding.right;
+    // Width calculation: based on actual content width
+    double contentWidth = _calculateContentWidth();
+    double width = contentWidth.clamp(config.minWidth, config.maxWidth) +
+        config.menuPadding.left +
+        config.menuPadding.right;
 
     return Size(width, height);
+  }
+
+  /// Calculates the actual content width based on the longest item.
+  double _calculateContentWidth() {
+    double maxContentWidth = 0;
+
+    for (final item in items) {
+      if (item.isDivider) continue;
+
+      // Calculate text width using TextPainter
+      final textPainter = TextPainter(
+        text: TextSpan(text: item.label, style: config.textStyle),
+        textDirection: TextDirection.ltr,
+      )..layout();
+
+      double itemWidth = textPainter.width;
+
+      // Add icon width + spacing (only if configured)
+      if (item.icon != null && config.iconWidth > 0) {
+        itemWidth += config.iconWidth + config.iconSpacing;
+      }
+
+      // Add item padding (horizontal)
+      itemWidth += config.itemPadding.left + config.itemPadding.right;
+
+      // Add item margin (horizontal)
+      itemWidth += config.itemMargin.left + config.itemMargin.right;
+
+      if (itemWidth > maxContentWidth) {
+        maxContentWidth = itemWidth;
+      }
+    }
+
+    return maxContentWidth;
   }
 
   @override
