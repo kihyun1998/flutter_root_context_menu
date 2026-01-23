@@ -63,6 +63,25 @@ class PlaygroundContent extends StatelessWidget {
             ),
             ContextMenuItem.divider(),
             ContextMenuItem(
+              label: 'Load Data (Async)',
+              icon: const Icon(Icons.cloud_download, size: 18),
+              onTap: () async {
+                onActionChanged('Loading data...');
+                await Future.delayed(const Duration(seconds: 2));
+                onActionChanged('Data loaded successfully!');
+              },
+            ),
+            ContextMenuItem(
+              label: 'Save (Async)',
+              icon: const Icon(Icons.save, size: 18),
+              onTap: () async {
+                onActionChanged('Saving...');
+                await Future.delayed(const Duration(milliseconds: 1500));
+                onActionChanged('Saved!');
+              },
+            ),
+            ContextMenuItem.divider(),
+            ContextMenuItem(
               label: 'Open New Screen',
               icon: const Icon(Icons.open_in_new, size: 18),
               onTap: () {

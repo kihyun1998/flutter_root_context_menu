@@ -1,3 +1,7 @@
+## 0.5.0
+
+- **fix**: Allow click events to pass through to underlying widgets when menu is open - clicking outside the menu now closes it AND triggers the clicked widget in a single action
+
 ## 0.4.3
 
 - **fix**: Support async callbacks in onTap to prevent UI blocking when menu items execute asynchronous operations
