@@ -42,8 +42,12 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
               ? () {
                   // Cancel the scheduled hideMenu from controller
                   RootContextMenuController().hideMenu();
-                  // Execute callback
-                  widget.item.onTap?.call();
+                  // Execute callback asynchronously to prevent blocking
+                  final callback = widget.item.onTap;
+                  if (callback != null) {
+                    // Execute in microtask to avoid blocking the UI
+                    Future.microtask(() => callback.call());
+                  }
                 }
               : null,
           child: Container(

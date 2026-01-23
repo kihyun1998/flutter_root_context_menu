@@ -1,3 +1,9 @@
+## 0.4.3
+
+- **fix**: Support async callbacks in onTap to prevent UI blocking when menu items execute asynchronous operations
+- **fix**: Execute onTap callbacks in microtask to avoid blocking the event loop during heavy synchronous operations
+- **fix**: Improve menu closing behavior - clicking outside the menu now closes it immediately without delay
+
 ## 0.4.2
 
 - **fix**: Fix menu item onTap callback and prevent new menu from being immediately closed

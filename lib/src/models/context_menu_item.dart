@@ -15,7 +15,8 @@ class ContextMenuItem {
   final Widget? icon;
 
   /// Callback function executed when the item is tapped.
-  final VoidCallback? onTap;
+  /// Supports both sync and async callbacks.
+  final Function? onTap;
 
   /// Whether this menu item is enabled and can be interacted with.
   final bool enabled;
