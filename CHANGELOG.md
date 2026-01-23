@@ -1,3 +1,10 @@
+## 0.4.0
+
+- **BREAKING**: Rename `showContextMenu` to `showRootContextMenu` to avoid naming conflicts
+- **feat**: Add `boxShadow` parameter to `ContextMenuConfig` for custom shadow styling
+- **feat**: Add playground controls for customizing box shadow (blur, spread, offset, opacity, color)
+- **fix**: Ensure Material widget is present when using custom boxShadow to prevent InkWell errors
+
 ## 0.3.1
 
 - **feat**: Add `builder` parameter to `ContextMenuArea` for correct context handling
@@ -23,7 +30,7 @@
 
 Initial release with core features:
 
-- Manual trigger context menu with `showContextMenu()`
+- Manual trigger context menu with `showRootContextMenu()`
 - Flexible icon support (Material Icons, SVG, custom widgets)
 - 8 built-in animations + custom animation support
 - Customizable styling (colors, sizes, elevation, border radius)

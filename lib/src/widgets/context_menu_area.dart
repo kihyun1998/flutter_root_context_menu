@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 /// ContextMenuArea(
 ///   builder: (context) => GestureDetector(
 ///     onSecondaryTapDown: (details) {
-///       showContextMenu(
+///       showRootContextMenu(
 ///         context: context,  // This context is inside ContextMenuArea
 ///         position: details.globalPosition,
 ///         items: [...],
@@ -29,10 +29,10 @@ class ContextMenuArea extends StatefulWidget {
   /// The child widget. Use this for simple cases.
   ///
   /// Note: When using [child], ensure you pass the correct context to
-  /// [showContextMenu]. The context must be from inside this [ContextMenuArea].
+  /// [showRootContextMenu]. The context must be from inside this [ContextMenuArea].
   final Widget? child;
 
-  /// Builder that provides the correct context for [showContextMenu].
+  /// Builder that provides the correct context for [showRootContextMenu].
   ///
   /// This is the recommended way to use [ContextMenuArea] as it ensures
   /// the menu respects the area boundaries.

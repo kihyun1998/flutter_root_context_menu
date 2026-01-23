@@ -62,6 +62,15 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
   double _menuPaddingHorizontal = 0;
   double _menuPaddingVertical = 0;
 
+  // BoxShadow settings
+  bool _useCustomBoxShadow = false;
+  double _shadowBlurRadius = 10.0;
+  double _shadowOffsetX = 0.0;
+  double _shadowOffsetY = 4.0;
+  double _shadowSpreadRadius = 0.0;
+  double _shadowOpacity = 0.2;
+  Color _shadowColor = Colors.black;
+
   // Last action
   String _lastAction = 'Right-click in the playground area';
 
@@ -616,7 +625,233 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
               ),
             ],
           ),
+          const SizedBox(height: 20),
+
+          // BoxShadow Section
+          const Text(
+            'Box Shadow',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+
+          // Use Custom BoxShadow Toggle
+          Row(
+            children: [
+              const Text(
+                'Use Custom Shadow',
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+              const Spacer(),
+              Switch(
+                value: _useCustomBoxShadow,
+                onChanged: (value) {
+                  setState(() {
+                    _useCustomBoxShadow = value;
+                  });
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          if (_useCustomBoxShadow) ...[
+            // Blur Radius
+            const Text(
+              'Blur Radius',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Expanded(
+                  child: Slider(
+                    value: _shadowBlurRadius,
+                    min: 0,
+                    max: 30,
+                    divisions: 30,
+                    label: _shadowBlurRadius.toInt().toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        _shadowBlurRadius = value;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                  child: Text('${_shadowBlurRadius.toInt()}px'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Spread Radius
+            const Text(
+              'Spread Radius',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Expanded(
+                  child: Slider(
+                    value: _shadowSpreadRadius,
+                    min: -10,
+                    max: 10,
+                    divisions: 20,
+                    label: _shadowSpreadRadius.toInt().toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        _shadowSpreadRadius = value;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                  child: Text('${_shadowSpreadRadius.toInt()}px'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Offset X
+            const Text(
+              'Offset X',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Expanded(
+                  child: Slider(
+                    value: _shadowOffsetX,
+                    min: -20,
+                    max: 20,
+                    divisions: 40,
+                    label: _shadowOffsetX.toInt().toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        _shadowOffsetX = value;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                  child: Text('${_shadowOffsetX.toInt()}px'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Offset Y
+            const Text(
+              'Offset Y',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Expanded(
+                  child: Slider(
+                    value: _shadowOffsetY,
+                    min: -20,
+                    max: 20,
+                    divisions: 40,
+                    label: _shadowOffsetY.toInt().toString(),
+                    onChanged: (value) {
+                      setState(() {
+                        _shadowOffsetY = value;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                  child: Text('${_shadowOffsetY.toInt()}px'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Opacity
+            const Text(
+              'Shadow Opacity',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Expanded(
+                  child: Slider(
+                    value: _shadowOpacity,
+                    min: 0,
+                    max: 1,
+                    divisions: 20,
+                    label: _shadowOpacity.toStringAsFixed(2),
+                    onChanged: (value) {
+                      setState(() {
+                        _shadowOpacity = value;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                  child: Text(_shadowOpacity.toStringAsFixed(2)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // Shadow Color
+            const Text(
+              'Shadow Color',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              children: [
+                _shadowColorButton(Colors.black, 'Black'),
+                _shadowColorButton(Colors.blue.shade900, 'Blue'),
+                _shadowColorButton(Colors.red.shade900, 'Red'),
+                _shadowColorButton(Colors.purple.shade900, 'Purple'),
+              ],
+            ),
+          ],
         ],
+      ),
+    );
+  }
+
+  Widget _shadowColorButton(Color color, String label) {
+    final isSelected = _shadowColor == color;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _shadowColor = color;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(
+            color: isSelected ? Colors.orange : Colors.grey.shade300,
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+          ),
+        ),
       ),
     );
   }
@@ -716,6 +951,16 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
                 horizontal: _menuPaddingHorizontal,
                 vertical: _menuPaddingVertical,
               ),
+              boxShadow: _useCustomBoxShadow
+                  ? [
+                      BoxShadow(
+                        color: _shadowColor.withValues(alpha: _shadowOpacity),
+                        blurRadius: _shadowBlurRadius,
+                        spreadRadius: _shadowSpreadRadius,
+                        offset: Offset(_shadowOffsetX, _shadowOffsetY),
+                      ),
+                    ]
+                  : null,
             ),
           ),
         ),
@@ -738,7 +983,7 @@ class SecondPage extends StatelessWidget {
       body: ContextMenuArea(
         child: GestureDetector(
           onSecondaryTapDown: (details) {
-            showContextMenu(
+            showRootContextMenu(
               context: context,
               position: details.globalPosition,
               items: [

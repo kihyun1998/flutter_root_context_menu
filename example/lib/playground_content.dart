@@ -24,7 +24,7 @@ class PlaygroundContent extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onSecondaryTapDown: (details) {
         // Using this widget's own context - works because we're inside ContextMenuArea!
-        showContextMenu(
+        showRootContextMenu(
           context: context,
           position: details.globalPosition,
           items: [

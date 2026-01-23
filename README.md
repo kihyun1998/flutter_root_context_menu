@@ -8,7 +8,7 @@ A customizable context menu package for Flutter with animation support, flexible
 - 🎨 **Flexible Icons** - Support for Material Icons, SVG, images, and custom widgets
 - ✨ **8 Built-in Animations** - Fade, popup, slide, bounce, scale, and more
 - 🎭 **Custom Animations** - Create your own animation effects
-- 📐 **Customizable Styling** - Colors, sizes, elevation, border radius, and width
+- 📐 **Customizable Styling** - Colors, sizes, elevation, border radius, width, and custom shadows
 - 🖱️ **Web-like Behavior** - Single click closes menu and triggers action simultaneously
 - 📍 **Smart Positioning** - Automatic overflow prevention
 - 🎮 **Interactive Example** - Try the playground app to test all features
@@ -19,7 +19,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_root_context_menu: ^0.3.1
+  flutter_root_context_menu: ^0.4.0
 ```
 
 ## Usage
@@ -34,7 +34,7 @@ import 'package:flutter_root_context_menu/flutter_root_context_menu.dart';
 ContextMenuArea(
   builder: (context) => GestureDetector(
     onSecondaryTapDown: (details) {
-      showContextMenu(
+      showRootContextMenu(
         context: context,  // This context is inside ContextMenuArea
         position: details.globalPosition,
         items: [
@@ -69,7 +69,7 @@ ContextMenuArea(
 ### With Custom Styling
 
 ```dart
-showContextMenu(
+showRootContextMenu(
   context: context,
   position: details.globalPosition,
   items: [...],
@@ -80,6 +80,26 @@ showContextMenu(
     elevation: 12.0,
     animationBuilder: ContextMenuAnimations.slideUp,
     animationDuration: Duration(milliseconds: 300),
+  ),
+);
+```
+
+### With Custom Box Shadow
+
+```dart
+showRootContextMenu(
+  context: context,
+  position: details.globalPosition,
+  items: [...],
+  config: ContextMenuConfig(
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.3),
+        blurRadius: 15,
+        spreadRadius: 2,
+        offset: Offset(0, 8),
+      ),
+    ],
   ),
 );
 ```
@@ -103,7 +123,7 @@ ContextMenuItem(
 ### Custom Menu Width
 
 ```dart
-showContextMenu(
+showRootContextMenu(
   config: ContextMenuConfig(
     minWidth: 200,
     maxWidth: 350,
@@ -115,7 +135,7 @@ showContextMenu(
 ### Screen Padding
 
 ```dart
-showContextMenu(
+showRootContextMenu(
   config: ContextMenuConfig(
     screenPadding: EdgeInsets.only(bottom: 10),
   ),
@@ -137,7 +157,7 @@ ContextMenuArea(
     color: Colors.grey[200],
     child: GestureDetector(
       onSecondaryTapDown: (details) {
-        showContextMenu(
+        showRootContextMenu(
           context: context,  // Uses the context provided by builder
           position: details.globalPosition,
           items: [...],
@@ -165,7 +185,7 @@ class MyCustomWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onSecondaryTapDown: (details) {
-        showContextMenu(
+        showRootContextMenu(
           context: context,  // This context finds ContextMenuArea ancestor
           position: details.globalPosition,
           items: [...],
@@ -259,7 +279,7 @@ ContextMenuConfig(
   maxWidth: 280.0,                     // Maximum menu width
   itemPadding: EdgeInsets.symmetric(horizontal: 16.0),
   borderRadius: BorderRadius.circular(8.0),
-  elevation: 8.0,                      // Shadow elevation
+  elevation: 8.0,                      // Shadow elevation (ignored if boxShadow is set)
   animationDuration: Duration(milliseconds: 200),
   animationBuilder: ContextMenuAnimations.popup,
   screenPadding: EdgeInsets.zero,      // Padding from screen edges
@@ -269,6 +289,7 @@ ContextMenuConfig(
   menuPadding: EdgeInsets.zero,        // Padding inside menu container
   iconWidth: 0,                        // Icon width (0 = natural size)
   iconSpacing: 0,                      // Spacing between icon and text
+  boxShadow: null,                     // Custom box shadow (overrides elevation)
 )
 ```
 

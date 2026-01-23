@@ -132,6 +132,25 @@ class ContextMenuConfig {
   /// Only applied when [iconWidth] > 0.
   final double iconSpacing;
 
+  /// Custom box shadow for the menu.
+  ///
+  /// When provided, this shadow will be used instead of [elevation].
+  /// If null, [elevation] will be used to generate a default shadow.
+  ///
+  /// Example:
+  /// ```dart
+  /// ContextMenuConfig(
+  ///   boxShadow: [
+  ///     BoxShadow(
+  ///       color: Colors.black.withOpacity(0.2),
+  ///       blurRadius: 10,
+  ///       offset: Offset(0, 4),
+  ///     ),
+  ///   ],
+  /// )
+  /// ```
+  final List<BoxShadow>? boxShadow;
+
   /// Creates a context menu configuration with customizable styling.
   const ContextMenuConfig({
     this.backgroundColor = Colors.white,
@@ -152,5 +171,6 @@ class ContextMenuConfig {
     this.menuPadding = EdgeInsets.zero,
     this.iconWidth = 0,
     this.iconSpacing = 0,
+    this.boxShadow,
   });
 }

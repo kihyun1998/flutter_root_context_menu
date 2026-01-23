@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+
 import 'controller/context_menu_controller.dart';
 import 'models/context_menu_config.dart';
 import 'models/context_menu_item.dart';
@@ -13,7 +14,7 @@ import 'widgets/context_menu_area.dart';
 /// ```dart
 /// GestureDetector(
 ///   onSecondaryTapDown: (details) {
-///     showContextMenu(
+///     showRootContextMenu(
 ///       context: context,
 ///       position: details.globalPosition,
 ///       items: [
@@ -25,7 +26,7 @@ import 'widgets/context_menu_area.dart';
 ///   child: Text('Right click me'),
 /// )
 /// ```
-void showContextMenu({
+void showRootContextMenu({
   required BuildContext context,
   required Offset position,
   required List<ContextMenuItem> items,

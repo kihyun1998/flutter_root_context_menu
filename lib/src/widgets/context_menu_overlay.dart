@@ -114,30 +114,61 @@ class ContextMenuOverlay extends StatelessWidget {
               config.animationBuilder ?? ContextMenuAnimations.popup;
           return animationBuilder(value, child!);
         },
-        child: Material(
-          elevation: config.elevation,
-          borderRadius: config.borderRadius,
-          color: config.backgroundColor,
-          child: Container(
-            constraints: BoxConstraints(
-              minWidth: config.minWidth,
-              maxWidth: config.maxWidth,
-            ),
-            padding: config.menuPadding,
-            child: IntrinsicWidth(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: items
-                    .map(
-                      (item) =>
-                          ContextMenuItemWidget(item: item, config: config),
-                    )
-                    .toList(),
+        child: config.boxShadow != null
+            ? Container(
+                decoration: BoxDecoration(
+                  borderRadius: config.borderRadius,
+                  boxShadow: config.boxShadow,
+                ),
+                child: Material(
+                  elevation: 0,
+                  borderRadius: config.borderRadius,
+                  color: config.backgroundColor,
+                  child: Container(
+                    constraints: BoxConstraints(
+                      minWidth: config.minWidth,
+                      maxWidth: config.maxWidth,
+                    ),
+                    padding: config.menuPadding,
+                    child: IntrinsicWidth(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: items
+                            .map(
+                              (item) => ContextMenuItemWidget(
+                                  item: item, config: config),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : Material(
+                elevation: config.elevation,
+                borderRadius: config.borderRadius,
+                color: config.backgroundColor,
+                child: Container(
+                  constraints: BoxConstraints(
+                    minWidth: config.minWidth,
+                    maxWidth: config.maxWidth,
+                  ),
+                  padding: config.menuPadding,
+                  child: IntrinsicWidth(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: items
+                          .map(
+                            (item) => ContextMenuItemWidget(
+                                item: item, config: config),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       ),
     );
   }
