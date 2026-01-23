@@ -1,3 +1,7 @@
+## 0.4.1
+
+- **fix**: Fix menu item onTap callback not being triggered due to pointer event handling
+
 ## 0.4.0
 
 - **BREAKING**: Rename `showContextMenu` to `showRootContextMenu` to avoid naming conflicts

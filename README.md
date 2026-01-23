@@ -19,7 +19,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_root_context_menu: ^0.4.0
+  flutter_root_context_menu: ^0.4.1
 ```
 
 ## Usage

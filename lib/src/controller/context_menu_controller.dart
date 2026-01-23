@@ -29,24 +29,27 @@ class RootContextMenuController {
     final effectiveConfig = config ?? const ContextMenuConfig();
 
     _currentMenuEntry = OverlayEntry(
-      builder: (context) => Listener(
-        behavior: HitTestBehavior.translucent,
-        onPointerDown: (event) {
-          // Close the menu when clicking outside
-          // Event continues to propagate to widgets below
-          hideMenu();
-        },
-        child: Stack(
-          children: [
-            // The actual menu
-            ContextMenuOverlay(
-              position: position,
-              items: items,
-              config: effectiveConfig,
-              areaConstraints: areaConstraints,
+      builder: (context) => Stack(
+        children: [
+          // Full-screen listener to close menu when clicking outside
+          Listener(
+            behavior: HitTestBehavior.translucent,
+            onPointerDown: (event) {
+              // Close the menu when clicking outside
+              hideMenu();
+            },
+            child: Container(
+              color: Colors.transparent,
             ),
-          ],
-        ),
+          ),
+          // The actual menu (prevents clicks from reaching the listener)
+          ContextMenuOverlay(
+            position: position,
+            items: items,
+            config: effectiveConfig,
+            areaConstraints: areaConstraints,
+          ),
+        ],
       ),
     );
 
