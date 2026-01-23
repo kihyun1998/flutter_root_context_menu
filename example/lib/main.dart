@@ -737,10 +737,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
                     },
                   ),
                 ),
-                SizedBox(
-                  width: 40,
-                  child: Text('${_shadowOffsetX.toInt()}px'),
-                ),
+                SizedBox(width: 40, child: Text('${_shadowOffsetX.toInt()}px')),
               ],
             ),
             const SizedBox(height: 12),
@@ -767,10 +764,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
                     },
                   ),
                 ),
-                SizedBox(
-                  width: 40,
-                  child: Text('${_shadowOffsetY.toInt()}px'),
-                ),
+                SizedBox(width: 40, child: Text('${_shadowOffsetY.toInt()}px')),
               ],
             ),
             const SizedBox(height: 12),
@@ -847,10 +841,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
         ),
         child: Text(
           label,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-          ),
+          style: const TextStyle(color: Colors.white, fontSize: 12),
         ),
       ),
     );
