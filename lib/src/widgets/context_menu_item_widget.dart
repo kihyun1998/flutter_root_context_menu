@@ -36,11 +36,14 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
-        child: InkWell(
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: widget.item.enabled
               ? () {
-                  widget.item.onTap?.call();
+                  // Cancel the scheduled hideMenu from controller
                   RootContextMenuController().hideMenu();
+                  // Execute callback
+                  widget.item.onTap?.call();
                 }
               : null,
           child: Container(

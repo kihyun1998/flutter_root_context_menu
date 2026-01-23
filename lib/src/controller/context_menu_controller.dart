@@ -29,27 +29,32 @@ class RootContextMenuController {
     final effectiveConfig = config ?? const ContextMenuConfig();
 
     _currentMenuEntry = OverlayEntry(
-      builder: (context) => Stack(
-        children: [
-          // Full-screen listener to close menu when clicking outside
-          Listener(
-            behavior: HitTestBehavior.translucent,
-            onPointerDown: (event) {
-              // Close the menu when clicking outside
+      builder: (context) => Listener(
+        behavior: HitTestBehavior.translucent,
+        onPointerDown: (event) {
+          final menuToClose =
+              _currentMenuEntry; // Capture current menu instance
+          // Close the menu when clicking outside
+          // Event continues to propagate to widgets below
+          // Delay hideMenu to next frame so GestureDetector's onTap can execute first
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            // Only hide if it's the same menu instance (not replaced by a new menu)
+            if (_currentMenuEntry != null && _currentMenuEntry == menuToClose) {
               hideMenu();
-            },
-            child: Container(
-              color: Colors.transparent,
+            }
+          });
+        },
+        child: Stack(
+          children: [
+            // The actual menu
+            ContextMenuOverlay(
+              position: position,
+              items: items,
+              config: effectiveConfig,
+              areaConstraints: areaConstraints,
             ),
-          ),
-          // The actual menu (prevents clicks from reaching the listener)
-          ContextMenuOverlay(
-            position: position,
-            items: items,
-            config: effectiveConfig,
-            areaConstraints: areaConstraints,
-          ),
-        ],
+          ],
+        ),
       ),
     );
 

@@ -105,54 +105,23 @@ class ContextMenuOverlay extends StatelessWidget {
     return Positioned(
       left: adjustedPosition.dx,
       top: adjustedPosition.dy,
-      child: Listener(
-        behavior: HitTestBehavior.opaque,
-        onPointerDown: (_) {
-          // Absorb pointer events to prevent closing the menu
-          // when clicking on menu items
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0.0, end: 1.0),
+        duration: config.animationDuration,
+        builder: (context, value, child) {
+          // Use custom animation builder if provided, otherwise use default popup
+          final animationBuilder =
+              config.animationBuilder ?? ContextMenuAnimations.popup;
+          return animationBuilder(value, child!);
         },
-        child: TweenAnimationBuilder<double>(
-          tween: Tween(begin: 0.0, end: 1.0),
-          duration: config.animationDuration,
-          builder: (context, value, child) {
-            // Use custom animation builder if provided, otherwise use default popup
-            final animationBuilder =
-                config.animationBuilder ?? ContextMenuAnimations.popup;
-            return animationBuilder(value, child!);
-          },
-          child: config.boxShadow != null
-              ? Container(
-                  decoration: BoxDecoration(
-                    borderRadius: config.borderRadius,
-                    boxShadow: config.boxShadow,
-                  ),
-                  child: Material(
-                    elevation: 0,
-                    borderRadius: config.borderRadius,
-                    color: config.backgroundColor,
-                    child: Container(
-                      constraints: BoxConstraints(
-                        minWidth: config.minWidth,
-                        maxWidth: config.maxWidth,
-                      ),
-                      padding: config.menuPadding,
-                      child: IntrinsicWidth(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: items
-                              .map(
-                                (item) => ContextMenuItemWidget(
-                                    item: item, config: config),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              : Material(
-                  elevation: config.elevation,
+        child: config.boxShadow != null
+            ? Container(
+                decoration: BoxDecoration(
+                  borderRadius: config.borderRadius,
+                  boxShadow: config.boxShadow,
+                ),
+                child: Material(
+                  elevation: 0,
                   borderRadius: config.borderRadius,
                   color: config.backgroundColor,
                   child: Container(
@@ -175,8 +144,32 @@ class ContextMenuOverlay extends StatelessWidget {
                     ),
                   ),
                 ),
-        ), // TweenAnimationBuilder
-      ), // Listener
-    ); // Positioned
+              )
+            : Material(
+                elevation: config.elevation,
+                borderRadius: config.borderRadius,
+                color: config.backgroundColor,
+                child: Container(
+                  constraints: BoxConstraints(
+                    minWidth: config.minWidth,
+                    maxWidth: config.maxWidth,
+                  ),
+                  padding: config.menuPadding,
+                  child: IntrinsicWidth(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: items
+                          .map(
+                            (item) => ContextMenuItemWidget(
+                                item: item, config: config),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ),
+              ),
+      ),
+    );
   }
 }

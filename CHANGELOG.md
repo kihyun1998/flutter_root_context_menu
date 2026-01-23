@@ -1,3 +1,7 @@
+## 0.4.2
+
+- **fix**: Fix menu item onTap callback and prevent new menu from being immediately closed
+
 ## 0.4.1
 
 - **fix**: Fix menu item onTap callback not being triggered due to pointer event handling
