@@ -85,6 +85,8 @@ class PlaygroundContent extends StatelessWidget {
               label: 'Open New Screen',
               icon: const Icon(Icons.open_in_new, size: 18),
               onTap: () {
+                // Explicitly close menu before navigation
+                closeRootContextMenu();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SecondPage()),
@@ -145,6 +147,10 @@ class PlaygroundContent extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () {
+                // Explicitly close menu before navigation (if open)
+                if (isRootContextMenuOpen()) {
+                  closeRootContextMenu();
+                }
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const SecondPage()),

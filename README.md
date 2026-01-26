@@ -19,7 +19,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_root_context_menu: ^0.5.0
+  flutter_root_context_menu: ^0.5.1
 ```
 
 ## Usage
@@ -257,13 +257,32 @@ This ensures menus are closed when:
 
 ## Manual Control
 
-You can also manually control the menu:
+You can programmatically control the menu using helper functions:
 
 ```dart
-// Close the menu programmatically
-RootContextMenuController().hideMenu();
+// Close the menu explicitly
+closeRootContextMenu();
 
 // Check if a menu is currently open
+if (isRootContextMenuOpen()) {
+  print('Menu is open');
+}
+
+// Example: Close menu before navigation
+ElevatedButton(
+  onPressed: () {
+    closeRootContextMenu();  // Close menu first
+    Navigator.push(context, MaterialPageRoute(...));
+  },
+  child: Text('Navigate'),
+)
+```
+
+Advanced: You can also use the controller directly:
+
+```dart
+// Direct controller access
+RootContextMenuController().hideMenu();
 bool isOpen = RootContextMenuController().isMenuOpen;
 ```
 

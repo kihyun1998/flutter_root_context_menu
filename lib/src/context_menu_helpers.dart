@@ -43,3 +43,47 @@ void showRootContextMenu({
     areaConstraints: areaConstraints,
   );
 }
+
+/// Closes the currently open context menu if any.
+///
+/// This is a convenience function that explicitly closes any active context menu.
+/// Useful when you need to programmatically close the menu, such as:
+/// - Before navigating to a new screen
+/// - When handling custom gestures or events
+/// - When the app state changes and the menu should be dismissed
+///
+/// Example:
+/// ```dart
+/// // Close menu before navigation
+/// closeRootContextMenu();
+/// Navigator.push(context, MaterialPageRoute(builder: (_) => NewPage()));
+///
+/// // Close menu on custom event
+/// void onCustomEvent() {
+///   closeRootContextMenu();
+///   // Handle event...
+/// }
+/// ```
+///
+/// Note: The menu is automatically closed when:
+/// - User clicks outside the menu
+/// - User selects a menu item
+/// - Navigation routes change (if ContextMenuRouteObserver is registered)
+void closeRootContextMenu() {
+  RootContextMenuController().hideMenu();
+}
+
+/// Checks if a context menu is currently open.
+///
+/// Returns `true` if a menu is currently displayed, `false` otherwise.
+///
+/// Example:
+/// ```dart
+/// if (isRootContextMenuOpen()) {
+///   print('Menu is open');
+///   closeRootContextMenu();
+/// }
+/// ```
+bool isRootContextMenuOpen() {
+  return RootContextMenuController().isMenuOpen;
+}

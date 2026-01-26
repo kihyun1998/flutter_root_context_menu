@@ -1051,13 +1051,13 @@ class SecondPage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        _buildStep('1', 'Go back to the previous screen'),
+                        _buildStep('1', 'Right-click to open the context menu'),
                         const SizedBox(height: 8),
-                        _buildStep('2', 'Right-click to open the context menu'),
+                        _buildStep('2', 'Click "Close Menu (3s delay)" button'),
                         const SizedBox(height: 8),
-                        _buildStep('3', 'Navigate here again (menu or button)'),
+                        _buildStep('3', 'Menu stays open for 3 seconds'),
                         const SizedBox(height: 8),
-                        _buildStep('4', 'Notice: Menu closes automatically!'),
+                        _buildStep('4', 'Menu closes automatically after 3s!'),
                         const SizedBox(height: 16),
                         Container(
                           padding: const EdgeInsets.all(12),
@@ -1101,6 +1101,42 @@ class SecondPage extends StatelessWidget {
                         horizontal: 32,
                         vertical: 16,
                       ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Open context menu first
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Menu will close in 3 seconds...'),
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+
+                      // Close menu after 3 seconds
+                      Future.delayed(const Duration(seconds: 3), () {
+                        closeRootContextMenu();
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Menu closed!'),
+                              duration: Duration(seconds: 1),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        }
+                      });
+                    },
+                    icon: const Icon(Icons.timer),
+                    label: const Text('Close Menu (3s delay)'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
+                      ),
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
                     ),
                   ),
                 ],

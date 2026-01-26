@@ -1,3 +1,9 @@
+## 0.5.1
+
+- **feat**: Add `closeRootContextMenu()` helper function for explicitly closing menus
+- **feat**: Add `isRootContextMenuOpen()` helper function to check if a menu is currently open
+- **docs**: Add manual control examples to README with new helper functions
+
 ## 0.5.0
 
 - **fix**: Allow click events to pass through to underlying widgets when menu is open - clicking outside the menu now closes it AND triggers the clicked widget in a single action
