@@ -106,11 +106,11 @@ isRootContextMenuOpen();      // Check if menu is open
 
 ## Documentation
 
-- [Basic Usage & Styling](docs/basic-usage.md)
-- [Custom Widget Items](docs/custom-widget-items.md)
-- [Area Constraints](docs/area-constraints.md)
-- [Animations](docs/animations.md)
-- [Route Observer & Manual Control](docs/route-observer.md)
+- [Basic Usage & Styling](doc/basic-usage.md)
+- [Custom Widget Items](doc/custom-widget-items.md)
+- [Area Constraints](doc/area-constraints.md)
+- [Animations](doc/animations.md)
+- [Route Observer & Manual Control](doc/route-observer.md)
 
 ## Example App
 
