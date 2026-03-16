@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_root_context_menu/flutter_root_context_menu.dart';
 
-import 'main.dart';
+import '../pages/second_page.dart';
 
 /// Separated widget example - uses its own context for showContextMenu
 /// This works because PlaygroundContent is inside ContextMenuArea,
 /// so ContextMenuArea.of(context) finds the ancestor correctly.
-class PlaygroundContent extends StatelessWidget {
+class PlaygroundContent extends StatefulWidget {
   final String lastAction;
   final ValueChanged<String> onActionChanged;
   final ContextMenuConfig config;
@@ -19,11 +19,25 @@ class PlaygroundContent extends StatelessWidget {
   });
 
   @override
+  State<PlaygroundContent> createState() => _PlaygroundContentState();
+}
+
+class _PlaygroundContentState extends State<PlaygroundContent> {
+  final ValueNotifier<bool> _darkMode = ValueNotifier(false);
+  final ValueNotifier<bool> _notifications = ValueNotifier(true);
+
+  @override
+  void dispose() {
+    _darkMode.dispose();
+    _notifications.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onSecondaryTapDown: (details) {
-        // Using this widget's own context - works because we're inside ContextMenuArea!
         showRootContextMenu(
           context: context,
           position: details.globalPosition,
@@ -31,53 +45,108 @@ class PlaygroundContent extends StatelessWidget {
             ContextMenuItem(
               label: 'Copy',
               icon: const Icon(Icons.copy, size: 18),
-              onTap: () => onActionChanged('Copy clicked'),
+              onTap: () => widget.onActionChanged('Copy clicked'),
             ),
             ContextMenuItem(
               label: 'Paste',
               icon: const Icon(Icons.paste, size: 18),
-              onTap: () => onActionChanged('Paste clicked'),
+              onTap: () => widget.onActionChanged('Paste clicked'),
             ),
             ContextMenuItem(
               label: 'Cut',
               icon: const Icon(Icons.cut, size: 18),
-              onTap: () => onActionChanged('Cut clicked'),
+              onTap: () => widget.onActionChanged('Cut clicked'),
+            ),
+            ContextMenuItem.divider(),
+            ContextMenuItem.custom(
+              builder: (context) => ValueListenableBuilder<bool>(
+                valueListenable: _darkMode,
+                builder: (context, value, _) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.dark_mode, size: 18),
+                      const SizedBox(width: 8),
+                      const Expanded(child: Text('Dark Mode')),
+                      SizedBox(
+                        height: 24,
+                        child: Switch(
+                          value: value,
+                          onChanged: (v) {
+                            _darkMode.value = v;
+                            widget.onActionChanged(
+                              'Dark Mode ${v ? "ON" : "OFF"}',
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            ContextMenuItem.custom(
+              builder: (context) => ValueListenableBuilder<bool>(
+                valueListenable: _notifications,
+                builder: (context, value, _) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.notifications, size: 18),
+                      const SizedBox(width: 8),
+                      const Expanded(child: Text('Notifications')),
+                      SizedBox(
+                        height: 24,
+                        child: Switch(
+                          value: value,
+                          onChanged: (v) {
+                            _notifications.value = v;
+                            widget.onActionChanged(
+                              'Notifications ${v ? "ON" : "OFF"}',
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             ContextMenuItem.divider(),
             ContextMenuItem(
               label: 'Select All',
               icon: const Icon(Icons.select_all, size: 18),
-              onTap: () => onActionChanged('Select All clicked'),
+              onTap: () => widget.onActionChanged('Select All clicked'),
             ),
             ContextMenuItem(
               label: 'Refresh',
               icon: const Icon(Icons.refresh, size: 18),
-              onTap: () => onActionChanged('Refresh clicked'),
+              onTap: () => widget.onActionChanged('Refresh clicked'),
             ),
             ContextMenuItem.divider(),
             ContextMenuItem(
               label: 'Delete',
               icon: const Icon(Icons.delete, size: 18),
               textColor: Colors.red,
-              onTap: () => onActionChanged('Delete clicked'),
+              onTap: () => widget.onActionChanged('Delete clicked'),
             ),
             ContextMenuItem.divider(),
             ContextMenuItem(
               label: 'Load Data (Async)',
               icon: const Icon(Icons.cloud_download, size: 18),
               onTap: () async {
-                onActionChanged('Loading data...');
+                widget.onActionChanged('Loading data...');
                 await Future.delayed(const Duration(seconds: 2));
-                onActionChanged('Data loaded successfully!');
+                widget.onActionChanged('Data loaded successfully!');
               },
             ),
             ContextMenuItem(
               label: 'Save (Async)',
               icon: const Icon(Icons.save, size: 18),
               onTap: () async {
-                onActionChanged('Saving...');
+                widget.onActionChanged('Saving...');
                 await Future.delayed(const Duration(milliseconds: 1500));
-                onActionChanged('Saved!');
+                widget.onActionChanged('Saved!');
               },
             ),
             ContextMenuItem.divider(),
@@ -85,7 +154,6 @@ class PlaygroundContent extends StatelessWidget {
               label: 'Open New Screen',
               icon: const Icon(Icons.open_in_new, size: 18),
               onTap: () {
-                // Explicitly close menu before navigation
                 closeRootContextMenu();
                 Navigator.push(
                   context,
@@ -94,7 +162,7 @@ class PlaygroundContent extends StatelessWidget {
               },
             ),
           ],
-          config: config,
+          config: widget.config,
         );
       },
       child: Center(
@@ -134,7 +202,7 @@ class PlaygroundContent extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    lastAction,
+                    widget.lastAction,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey.shade700,
@@ -147,7 +215,6 @@ class PlaygroundContent extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () {
-                // Explicitly close menu before navigation (if open)
                 if (isRootContextMenuOpen()) {
                   closeRootContextMenu();
                 }

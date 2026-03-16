@@ -1,3 +1,10 @@
+## 0.6.0
+
+- **feat**: Add `ContextMenuItem.custom()` for rendering custom widgets inside menu items
+- **feat**: Custom items support interactive widgets like `Switch`, `Checkbox`, `Slider` without auto-closing the menu
+- **feat**: Add `customHeight` parameter for custom items to override default item height
+- **refactor**: Restructure example app with separation of concerns (models, pages, widgets folders)
+
 ## 0.5.1
 
 - **feat**: Add `closeRootContextMenu()` helper function for explicitly closing menus

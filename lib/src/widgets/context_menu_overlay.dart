@@ -25,21 +25,26 @@ class ContextMenuOverlay extends StatelessWidget {
     // Calculate menu size including all margins and paddings
 
     int dividerCount = items.where((item) => item.isDivider).length;
-    int normalItemCount = items.length - dividerCount;
+    int customCount = items.where((item) => item.isCustom).length;
+    int normalItemCount = items.length - dividerCount - customCount;
 
     // Height calculation:
     // - Normal items: height + vertical margins
+    // - Custom items: customHeight or itemHeight + vertical margins
     // - Dividers: divider height (1px) + vertical margins
     // - Menu padding: top + bottom
     double itemsHeight = normalItemCount * config.itemHeight;
-    double itemMarginsHeight =
-        normalItemCount * (config.itemMargin.top + config.itemMargin.bottom);
+    double customItemsHeight = items.where((item) => item.isCustom).fold(
+        0.0, (sum, item) => sum + (item.customHeight ?? config.itemHeight));
+    double itemMarginsHeight = (normalItemCount + customCount) *
+        (config.itemMargin.top + config.itemMargin.bottom);
 
     double dividersHeight = dividerCount * 1.0; // Divider height is 1px
     double dividerMarginsHeight =
         dividerCount * (config.dividerMargin.top + config.dividerMargin.bottom);
 
     double height = itemsHeight +
+        customItemsHeight +
         itemMarginsHeight +
         dividersHeight +
         dividerMarginsHeight +

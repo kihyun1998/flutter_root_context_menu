@@ -31,6 +31,19 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
       );
     }
 
+    // Render custom widget with its own state scope
+    if (widget.item.isCustom) {
+      return Padding(
+        padding: widget.config.itemMargin,
+        child: SizedBox(
+          height: widget.item.customHeight ?? widget.config.itemHeight,
+          child: StatefulBuilder(
+            builder: (context, setInnerState) => widget.item.builder!(context),
+          ),
+        ),
+      );
+    }
+
     return Padding(
       padding: widget.config.itemMargin,
       child: MouseRegion(
