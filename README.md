@@ -17,7 +17,7 @@ A customizable context menu package for Flutter with animation support, flexible
 
 ```yaml
 dependencies:
-  flutter_root_context_menu: ^0.6.0
+  flutter_root_context_menu: ^0.6.1
 ```
 
 ## Quick Start

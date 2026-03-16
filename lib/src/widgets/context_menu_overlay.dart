@@ -6,7 +6,10 @@ import '../utils/menu_position_calculator.dart';
 import 'context_menu_item_widget.dart';
 
 /// Overlay widget that displays the context menu.
-class ContextMenuOverlay extends StatelessWidget {
+///
+/// Uses post-frame measurement to determine the actual rendered size,
+/// ensuring accurate position adjustment even with custom widget items.
+class ContextMenuOverlay extends StatefulWidget {
   final Offset position;
   final List<ContextMenuItem> items;
   final ContextMenuConfig config;
@@ -20,160 +23,117 @@ class ContextMenuOverlay extends StatelessWidget {
     this.areaConstraints,
   });
 
-  /// Calculates the menu size based on items.
-  Size _calculateMenuSize() {
-    // Calculate menu size including all margins and paddings
+  @override
+  State<ContextMenuOverlay> createState() => _ContextMenuOverlayState();
+}
 
-    int dividerCount = items.where((item) => item.isDivider).length;
-    int customCount = items.where((item) => item.isCustom).length;
-    int normalItemCount = items.length - dividerCount - customCount;
+class _ContextMenuOverlayState extends State<ContextMenuOverlay> {
+  final GlobalKey _menuKey = GlobalKey();
+  Offset? _adjustedPosition;
 
-    // Height calculation:
-    // - Normal items: height + vertical margins
-    // - Custom items: customHeight or itemHeight + vertical margins
-    // - Dividers: divider height (1px) + vertical margins
-    // - Menu padding: top + bottom
-    double itemsHeight = normalItemCount * config.itemHeight;
-    double customItemsHeight = items.where((item) => item.isCustom).fold(
-        0.0, (sum, item) => sum + (item.customHeight ?? config.itemHeight));
-    double itemMarginsHeight = (normalItemCount + customCount) *
-        (config.itemMargin.top + config.itemMargin.bottom);
-
-    double dividersHeight = dividerCount * 1.0; // Divider height is 1px
-    double dividerMarginsHeight =
-        dividerCount * (config.dividerMargin.top + config.dividerMargin.bottom);
-
-    double height = itemsHeight +
-        customItemsHeight +
-        itemMarginsHeight +
-        dividersHeight +
-        dividerMarginsHeight +
-        config.menuPadding.top +
-        config.menuPadding.bottom;
-
-    // Width calculation: based on actual content width
-    double contentWidth = _calculateContentWidth();
-    double width = contentWidth.clamp(config.minWidth, config.maxWidth) +
-        config.menuPadding.left +
-        config.menuPadding.right;
-
-    return Size(width, height);
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _measureAndReposition();
+    });
   }
 
-  /// Calculates the actual content width based on the longest item.
-  double _calculateContentWidth() {
-    double maxContentWidth = 0;
+  void _measureAndReposition() {
+    final renderBox = _menuKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null || !mounted) return;
 
-    for (final item in items) {
-      if (item.isDivider) continue;
+    final menuSize = renderBox.size;
+    final screenSize = MediaQuery.of(context).size;
 
-      // Calculate text width using TextPainter
-      final textPainter = TextPainter(
-        text: TextSpan(text: item.label, style: config.textStyle),
-        textDirection: TextDirection.ltr,
-      )..layout();
+    final newPosition = MenuPositionCalculator.calculate(
+      position: widget.position,
+      menuSize: menuSize,
+      screenSize: screenSize,
+      areaConstraints: widget.areaConstraints,
+      padding: widget.config.screenPadding,
+    );
 
-      double itemWidth = textPainter.width;
+    if (newPosition != widget.position) {
+      setState(() {
+        _adjustedPosition = newPosition;
+      });
+    } else {
+      setState(() {
+        _adjustedPosition = widget.position;
+      });
+    }
+  }
 
-      // Add icon width + spacing (only if configured)
-      if (item.icon != null && config.iconWidth > 0) {
-        itemWidth += config.iconWidth + config.iconSpacing;
-      }
+  Widget _buildMenuContent() {
+    final menuBody = Container(
+      constraints: BoxConstraints(
+        minWidth: widget.config.minWidth,
+        maxWidth: widget.config.maxWidth,
+      ),
+      padding: widget.config.menuPadding,
+      child: IntrinsicWidth(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: widget.items
+              .map(
+                (item) =>
+                    ContextMenuItemWidget(item: item, config: widget.config),
+              )
+              .toList(),
+        ),
+      ),
+    );
 
-      // Add item padding (horizontal)
-      itemWidth += config.itemPadding.left + config.itemPadding.right;
-
-      // Add item margin (horizontal)
-      itemWidth += config.itemMargin.left + config.itemMargin.right;
-
-      if (itemWidth > maxContentWidth) {
-        maxContentWidth = itemWidth;
-      }
+    if (widget.config.boxShadow != null) {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: widget.config.borderRadius,
+          boxShadow: widget.config.boxShadow,
+        ),
+        child: Material(
+          elevation: 0,
+          borderRadius: widget.config.borderRadius,
+          color: widget.config.backgroundColor,
+          child: menuBody,
+        ),
+      );
     }
 
-    return maxContentWidth;
+    return Material(
+      elevation: widget.config.elevation,
+      borderRadius: widget.config.borderRadius,
+      color: widget.config.backgroundColor,
+      child: menuBody,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final menuSize = _calculateMenuSize();
-
-    final adjustedPosition = MenuPositionCalculator.calculate(
-      position: position,
-      menuSize: menuSize,
-      screenSize: screenSize,
-      areaConstraints: areaConstraints,
-      padding: config.screenPadding,
-    );
+    final isPositioned = _adjustedPosition != null;
+    final displayPosition = _adjustedPosition ?? widget.position;
 
     return Positioned(
-      left: adjustedPosition.dx,
-      top: adjustedPosition.dy,
-      child: TweenAnimationBuilder<double>(
-        tween: Tween(begin: 0.0, end: 1.0),
-        duration: config.animationDuration,
-        builder: (context, value, child) {
-          // Use custom animation builder if provided, otherwise use default popup
-          final animationBuilder =
-              config.animationBuilder ?? ContextMenuAnimations.popup;
-          return animationBuilder(value, child!);
-        },
-        child: config.boxShadow != null
-            ? Container(
-                decoration: BoxDecoration(
-                  borderRadius: config.borderRadius,
-                  boxShadow: config.boxShadow,
-                ),
-                child: Material(
-                  elevation: 0,
-                  borderRadius: config.borderRadius,
-                  color: config.backgroundColor,
-                  child: Container(
-                    constraints: BoxConstraints(
-                      minWidth: config.minWidth,
-                      maxWidth: config.maxWidth,
-                    ),
-                    padding: config.menuPadding,
-                    child: IntrinsicWidth(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: items
-                            .map(
-                              (item) => ContextMenuItemWidget(
-                                  item: item, config: config),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            : Material(
-                elevation: config.elevation,
-                borderRadius: config.borderRadius,
-                color: config.backgroundColor,
-                child: Container(
-                  constraints: BoxConstraints(
-                    minWidth: config.minWidth,
-                    maxWidth: config.maxWidth,
-                  ),
-                  padding: config.menuPadding,
-                  child: IntrinsicWidth(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: items
-                          .map(
-                            (item) => ContextMenuItemWidget(
-                                item: item, config: config),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
-              ),
+      left: displayPosition.dx,
+      top: displayPosition.dy,
+      child: Opacity(
+        opacity: isPositioned ? 1.0 : 0.0,
+        child: TweenAnimationBuilder<double>(
+          key: isPositioned ? const ValueKey('animated') : null,
+          tween: Tween(begin: isPositioned ? 0.0 : 1.0, end: 1.0),
+          duration:
+              isPositioned ? widget.config.animationDuration : Duration.zero,
+          builder: (context, value, child) {
+            final animationBuilder =
+                widget.config.animationBuilder ?? ContextMenuAnimations.popup;
+            return animationBuilder(value, child!);
+          },
+          child: KeyedSubtree(
+            key: _menuKey,
+            child: _buildMenuContent(),
+          ),
+        ),
       ),
     );
   }

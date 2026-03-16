@@ -25,11 +25,13 @@ class PlaygroundContent extends StatefulWidget {
 class _PlaygroundContentState extends State<PlaygroundContent> {
   final ValueNotifier<bool> _darkMode = ValueNotifier(false);
   final ValueNotifier<bool> _notifications = ValueNotifier(true);
+  final ValueNotifier<double> _volume = ValueNotifier(0.5);
 
   @override
   void dispose() {
     _darkMode.dispose();
     _notifications.dispose();
+    _volume.dispose();
     super.dispose();
   }
 
@@ -51,11 +53,6 @@ class _PlaygroundContentState extends State<PlaygroundContent> {
               label: 'Paste',
               icon: const Icon(Icons.paste, size: 18),
               onTap: () => widget.onActionChanged('Paste clicked'),
-            ),
-            ContextMenuItem(
-              label: 'Cut',
-              icon: const Icon(Icons.cut, size: 18),
-              onTap: () => widget.onActionChanged('Cut clicked'),
             ),
             ContextMenuItem.divider(),
             ContextMenuItem.custom(
@@ -86,23 +83,30 @@ class _PlaygroundContentState extends State<PlaygroundContent> {
               ),
             ),
             ContextMenuItem.custom(
-              builder: (context) => ValueListenableBuilder<bool>(
-                valueListenable: _notifications,
+              customHeight: 60,
+              builder: (context) => ValueListenableBuilder<double>(
+                valueListenable: _volume,
                 builder: (context, value, _) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.notifications, size: 18),
-                      const SizedBox(width: 8),
-                      const Expanded(child: Text('Notifications')),
+                      Row(
+                        children: [
+                          const Icon(Icons.volume_up, size: 18),
+                          const SizedBox(width: 8),
+                          Text('Volume: ${(value * 100).round()}%'),
+                        ],
+                      ),
                       SizedBox(
                         height: 24,
-                        child: Switch(
+                        child: Slider(
                           value: value,
                           onChanged: (v) {
-                            _notifications.value = v;
+                            _volume.value = v;
                             widget.onActionChanged(
-                              'Notifications ${v ? "ON" : "OFF"}',
+                              'Volume: ${(v * 100).round()}%',
                             );
                           },
                         ),
@@ -112,16 +116,45 @@ class _PlaygroundContentState extends State<PlaygroundContent> {
                 ),
               ),
             ),
-            ContextMenuItem.divider(),
-            ContextMenuItem(
-              label: 'Select All',
-              icon: const Icon(Icons.select_all, size: 18),
-              onTap: () => widget.onActionChanged('Select All clicked'),
-            ),
-            ContextMenuItem(
-              label: 'Refresh',
-              icon: const Icon(Icons.refresh, size: 18),
-              onTap: () => widget.onActionChanged('Refresh clicked'),
+            ContextMenuItem.custom(
+              customHeight: 80,
+              builder: (context) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: const [
+                        Icon(Icons.palette, size: 18),
+                        SizedBox(width: 8),
+                        Text('Theme Color'),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 6,
+                      children: List.generate(
+                        10,
+                        (i) => GestureDetector(
+                          onTap: () =>
+                              widget.onActionChanged('Color ${i + 1} selected'),
+                          child: Container(
+                            width: 22,
+                            height: 22,
+                            decoration: BoxDecoration(
+                              color: Colors.primaries[i],
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.black12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             ContextMenuItem.divider(),
             ContextMenuItem(
@@ -129,37 +162,6 @@ class _PlaygroundContentState extends State<PlaygroundContent> {
               icon: const Icon(Icons.delete, size: 18),
               textColor: Colors.red,
               onTap: () => widget.onActionChanged('Delete clicked'),
-            ),
-            ContextMenuItem.divider(),
-            ContextMenuItem(
-              label: 'Load Data (Async)',
-              icon: const Icon(Icons.cloud_download, size: 18),
-              onTap: () async {
-                widget.onActionChanged('Loading data...');
-                await Future.delayed(const Duration(seconds: 2));
-                widget.onActionChanged('Data loaded successfully!');
-              },
-            ),
-            ContextMenuItem(
-              label: 'Save (Async)',
-              icon: const Icon(Icons.save, size: 18),
-              onTap: () async {
-                widget.onActionChanged('Saving...');
-                await Future.delayed(const Duration(milliseconds: 1500));
-                widget.onActionChanged('Saved!');
-              },
-            ),
-            ContextMenuItem.divider(),
-            ContextMenuItem(
-              label: 'Open New Screen',
-              icon: const Icon(Icons.open_in_new, size: 18),
-              onTap: () {
-                closeRootContextMenu();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SecondPage()),
-                );
-              },
             ),
           ],
           config: widget.config,

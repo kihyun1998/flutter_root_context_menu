@@ -1,3 +1,9 @@
+## 0.6.1
+
+- **fix**: Use post-frame measurement for accurate menu positioning with custom widget items
+- **refactor**: Replace pre-calculated menu size with actual rendered size measurement via `GlobalKey`
+- **example**: Add volume slider and theme color palette custom menu items
+
 ## 0.6.0
 
 - **feat**: Add `ContextMenuItem.custom()` for rendering custom widgets inside menu items
