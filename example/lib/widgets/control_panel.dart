@@ -34,6 +34,7 @@ class ControlPanel extends StatelessWidget {
           _buildScreenPaddingSection(),
           _buildItemStylingSection(),
           _buildDividerMenuSection(),
+          _buildSubmenuSection(),
           _buildBoxShadowSection(),
         ],
       ),
@@ -317,6 +318,100 @@ class ControlPanel extends StatelessWidget {
           suffixWidth: 40,
           suffix: '${settings.menuPaddingVertical.toInt()}px',
           onChanged: (v) => _update(() => settings.menuPaddingVertical = v),
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _buildSubmenuSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Submenu',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        const SizedBox(height: 12),
+        const Text(
+          'Submenu Animation',
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(height: 8),
+        DropdownButton<String>(
+          value: settings.submenuAnimationName,
+          isExpanded: true,
+          items: PlaygroundSettings.submenuAnimations.keys.map((name) {
+            return DropdownMenuItem(value: name, child: Text(name));
+          }).toList(),
+          onChanged: (value) {
+            _update(() {
+              settings.submenuAnimationName = value!;
+              settings.submenuAnimation =
+                  PlaygroundSettings.submenuAnimations[value];
+            });
+          },
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            const Text(
+              'Custom Animation Duration',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            const Spacer(),
+            Switch(
+              value: settings.useSubmenuAnimationDuration,
+              onChanged: (v) =>
+                  _update(() => settings.useSubmenuAnimationDuration = v),
+            ),
+          ],
+        ),
+        if (settings.useSubmenuAnimationDuration)
+          _buildLabeledSlider(
+            'Animation Duration',
+            settings.submenuAnimationDuration,
+            0,
+            1000,
+            20,
+            '${settings.submenuAnimationDuration.toInt()}ms',
+            (v) => _update(() => settings.submenuAnimationDuration = v),
+          ),
+        _buildLabeledSlider(
+          'Open Delay',
+          settings.submenuOpenDelay,
+          0,
+          1000,
+          20,
+          '${settings.submenuOpenDelay.toInt()}ms',
+          (v) => _update(() => settings.submenuOpenDelay = v),
+        ),
+        _buildLabeledSlider(
+          'Close Delay',
+          settings.submenuCloseDelay,
+          0,
+          1000,
+          20,
+          '${settings.submenuCloseDelay.toInt()}ms',
+          (v) => _update(() => settings.submenuCloseDelay = v),
+        ),
+        _buildLabeledSlider(
+          'Horizontal Offset',
+          settings.submenuHorizontalOffset,
+          -20,
+          20,
+          40,
+          '${settings.submenuHorizontalOffset.toInt()}px',
+          (v) => _update(() => settings.submenuHorizontalOffset = v),
+        ),
+        _buildLabeledSlider(
+          'Max Depth',
+          settings.maxSubmenuDepth.toDouble(),
+          1,
+          10,
+          9,
+          '${settings.maxSubmenuDepth}',
+          (v) => _update(() => settings.maxSubmenuDepth = v.toInt()),
         ),
         const SizedBox(height: 20),
       ],

@@ -151,6 +151,41 @@ class ContextMenuConfig {
   /// ```
   final List<BoxShadow>? boxShadow;
 
+  /// Delay before a submenu opens when hovering over a submenu item.
+  ///
+  /// A short delay prevents submenus from flickering open during casual
+  /// mouse movement across menu items.
+  final Duration submenuOpenDelay;
+
+  /// Delay before a submenu closes after the mouse leaves.
+  ///
+  /// This delay allows the user to move the mouse from the parent item
+  /// to the submenu panel across the gap without the submenu closing.
+  final Duration submenuCloseDelay;
+
+  /// Horizontal offset between the parent menu and submenu.
+  ///
+  /// Negative values create a slight overlap between menus, which helps
+  /// prevent hover gaps when moving the mouse between parent and submenu.
+  final double submenuHorizontalOffset;
+
+  /// Custom animation builder for submenu appearance.
+  ///
+  /// If null, automatically uses [ContextMenuAnimations.slideRight] when
+  /// the submenu opens to the right, or slideLeft when it opens to the left.
+  final ContextMenuAnimationBuilder? submenuAnimationBuilder;
+
+  /// Duration of the submenu appearance animation.
+  ///
+  /// If null, falls back to [animationDuration].
+  final Duration? submenuAnimationDuration;
+
+  /// Maximum submenu nesting depth to prevent infinite recursion.
+  ///
+  /// When the depth limit is reached, submenu items at that level will
+  /// not open further submenus.
+  final int maxSubmenuDepth;
+
   /// Creates a context menu configuration with customizable styling.
   const ContextMenuConfig({
     this.backgroundColor = Colors.white,
@@ -172,5 +207,11 @@ class ContextMenuConfig {
     this.iconWidth = 0,
     this.iconSpacing = 0,
     this.boxShadow,
+    this.submenuOpenDelay = const Duration(milliseconds: 200),
+    this.submenuCloseDelay = const Duration(milliseconds: 300),
+    this.submenuHorizontalOffset = -4.0,
+    this.submenuAnimationBuilder,
+    this.submenuAnimationDuration,
+    this.maxSubmenuDepth = 5,
   });
 }

@@ -1,6 +1,6 @@
 name: flutter_root_context_menu
 description: A customizable context menu package for Flutter with animation support, flexible styling, and web-like behavior.
-version: 0.6.1
+version: 0.7.0
 homepage: https://github.com/kihyun1998/flutter_root_context_menu
 repository: https://github.com/kihyun1998/flutter_root_context_menu
 issue_tracker: https://github.com/kihyun1998/flutter_root_context_menu/issues
@@ -12,6 +12,7 @@ environment:
 tags:
   - context-menu
   - menu
+  - submenu
   - widget
   - animation
   - ui

@@ -32,6 +32,16 @@ class PlaygroundSettings {
   double menuPaddingHorizontal;
   double menuPaddingVertical;
 
+  // Submenu settings
+  ContextMenuAnimationBuilder? submenuAnimation;
+  String submenuAnimationName;
+  double submenuAnimationDuration;
+  bool useSubmenuAnimationDuration;
+  double submenuOpenDelay;
+  double submenuCloseDelay;
+  double submenuHorizontalOffset;
+  int maxSubmenuDepth;
+
   // BoxShadow settings
   bool useCustomBoxShadow;
   double shadowBlurRadius;
@@ -62,6 +72,14 @@ class PlaygroundSettings {
     this.dividerMarginVertical = 0,
     this.menuPaddingHorizontal = 0,
     this.menuPaddingVertical = 0,
+    this.submenuAnimation,
+    this.submenuAnimationName = 'Auto',
+    this.submenuAnimationDuration = 200,
+    this.useSubmenuAnimationDuration = false,
+    this.submenuOpenDelay = 200,
+    this.submenuCloseDelay = 300,
+    this.submenuHorizontalOffset = -4,
+    this.maxSubmenuDepth = 5,
     this.useCustomBoxShadow = false,
     this.shadowBlurRadius = 10.0,
     this.shadowOffsetX = 0.0,
@@ -77,6 +95,19 @@ class PlaygroundSettings {
     'Slide Up': ContextMenuAnimations.slideUp,
     'Slide Down': ContextMenuAnimations.slideDown,
     'Slide Right': ContextMenuAnimations.slideRight,
+    'Bounce': ContextMenuAnimations.bounce,
+    'Scale': ContextMenuAnimations.scale,
+    'None': ContextMenuAnimations.none,
+  };
+
+  static const Map<String, ContextMenuAnimationBuilder?> submenuAnimations = {
+    'Auto': null,
+    'Slide Right': ContextMenuAnimations.slideRight,
+    'Slide Left': ContextMenuAnimations.slideLeft,
+    'Fade': ContextMenuAnimations.fade,
+    'Popup': ContextMenuAnimations.popup,
+    'Slide Up': ContextMenuAnimations.slideUp,
+    'Slide Down': ContextMenuAnimations.slideDown,
     'Bounce': ContextMenuAnimations.bounce,
     'Scale': ContextMenuAnimations.scale,
     'None': ContextMenuAnimations.none,
@@ -119,6 +150,14 @@ class PlaygroundSettings {
               ),
             ]
           : null,
+      submenuOpenDelay: Duration(milliseconds: submenuOpenDelay.toInt()),
+      submenuCloseDelay: Duration(milliseconds: submenuCloseDelay.toInt()),
+      submenuHorizontalOffset: submenuHorizontalOffset,
+      submenuAnimationBuilder: submenuAnimation,
+      submenuAnimationDuration: useSubmenuAnimationDuration
+          ? Duration(milliseconds: submenuAnimationDuration.toInt())
+          : null,
+      maxSubmenuDepth: maxSubmenuDepth,
     );
   }
 }

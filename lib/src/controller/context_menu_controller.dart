@@ -29,28 +29,11 @@ class RootContextMenuController {
     final effectiveConfig = config ?? const ContextMenuConfig();
 
     _currentMenuEntry = OverlayEntry(
-      builder: (context) => Stack(
-        children: [
-          // Full screen transparent layer to detect clicks outside menu
-          // Using Listener instead of GestureDetector to allow events to pass through
-          Positioned.fill(
-            child: Listener(
-              behavior: HitTestBehavior.translucent,
-              onPointerDown: (event) {
-                // Close menu on any pointer down outside
-                hideMenu();
-              },
-              child: IgnorePointer(),
-            ),
-          ),
-          // The actual menu (Material absorbs taps automatically)
-          ContextMenuOverlay(
-            position: position,
-            items: items,
-            config: effectiveConfig,
-            areaConstraints: areaConstraints,
-          ),
-        ],
+      builder: (context) => ContextMenuRoot(
+        position: position,
+        items: items,
+        config: effectiveConfig,
+        areaConstraints: areaConstraints,
       ),
     );
 

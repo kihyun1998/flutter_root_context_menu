@@ -78,6 +78,20 @@ class ContextMenuAnimations {
     );
   }
 
+  /// Slide left animation.
+  ///
+  /// The menu slides in from the right while fading in.
+  /// Used for submenus that open to the left of their parent.
+  static Widget slideLeft(double progress, Widget child) {
+    return Transform.translate(
+      offset: Offset(20 * (1 - progress), 0),
+      child: Opacity(
+        opacity: progress,
+        child: child,
+      ),
+    );
+  }
+
   /// Bounce animation with elastic effect.
   ///
   /// The menu bounces in with an elastic curve.

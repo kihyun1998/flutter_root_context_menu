@@ -7,11 +7,21 @@ import '../models/context_menu_item.dart';
 class ContextMenuItemWidget extends StatefulWidget {
   final ContextMenuItem item;
   final ContextMenuConfig config;
+  final int itemIndex;
+  final bool isActiveSubmenuParent;
+  final void Function(GlobalKey itemKey)? onSubmenuHoverEnter;
+  final VoidCallback? onSubmenuHoverExit;
+  final VoidCallback? onNonSubmenuItemHoverEnter;
 
   const ContextMenuItemWidget({
     super.key,
     required this.item,
     required this.config,
+    this.itemIndex = 0,
+    this.isActiveSubmenuParent = false,
+    this.onSubmenuHoverEnter,
+    this.onSubmenuHoverExit,
+    this.onNonSubmenuItemHoverEnter,
   });
 
   @override
@@ -20,6 +30,7 @@ class ContextMenuItemWidget extends StatefulWidget {
 
 class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
   bool _isHovered = false;
+  final GlobalKey _itemKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -47,27 +58,42 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
     return Padding(
       padding: widget.config.itemMargin,
       child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
+        onEnter: (_) {
+          setState(() => _isHovered = true);
+          if (widget.item.isSubmenu && widget.item.enabled) {
+            widget.onSubmenuHoverEnter?.call(_itemKey);
+          } else if (!widget.item.isSubmenu && !widget.item.isDivider) {
+            widget.onNonSubmenuItemHoverEnter?.call();
+          }
+        },
+        onExit: (_) {
+          setState(() => _isHovered = false);
+          if (widget.item.isSubmenu) {
+            widget.onSubmenuHoverExit?.call();
+          }
+        },
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: widget.item.enabled
-              ? () {
-                  // Cancel the scheduled hideMenu from controller
-                  RootContextMenuController().hideMenu();
-                  // Execute callback asynchronously to prevent blocking
-                  final callback = widget.item.onTap;
-                  if (callback != null) {
-                    // Execute in microtask to avoid blocking the UI
-                    Future.microtask(() => callback.call());
-                  }
-                }
-              : null,
+          onTap: widget.item.isSubmenu
+              ? (widget.item.enabled
+                  ? () => widget.onSubmenuHoverEnter?.call(_itemKey)
+                  : null)
+              : (widget.item.enabled
+                  ? () {
+                      RootContextMenuController().hideMenu();
+                      final callback = widget.item.onTap;
+                      if (callback != null) {
+                        Future.microtask(() => callback.call());
+                      }
+                    }
+                  : null),
           child: Container(
+            key: _itemKey,
             height: widget.config.itemHeight,
             padding: widget.config.itemPadding,
             decoration: BoxDecoration(
-              color: _isHovered && widget.item.enabled
+              color: (_isHovered || widget.isActiveSubmenuParent) &&
+                      widget.item.enabled
                   ? widget.config.hoverColor
                   : null,
               borderRadius: widget.config.itemBorderRadius,
@@ -97,6 +123,11 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
                     ),
                   ),
                 ),
+                if (widget.item.isSubmenu)
+                  Opacity(
+                    opacity: widget.item.enabled ? 0.6 : 0.3,
+                    child: const Icon(Icons.chevron_right, size: 16),
+                  ),
               ],
             ),
           ),

@@ -1,3 +1,17 @@
+## 0.7.0
+
+- **feat**: Add `ContextMenuItem.submenu()` for nested submenu support with unlimited depth
+- **feat**: Submenus open on hover (desktop) and tap (touch) with configurable delays
+- **feat**: Smart submenu positioning with automatic left/right flip on screen edge overflow
+- **feat**: Add `submenuOpenDelay`, `submenuCloseDelay`, `submenuHorizontalOffset` config options
+- **feat**: Add `submenuAnimationBuilder` and `submenuAnimationDuration` for independent submenu animation control
+- **feat**: Add `maxSubmenuDepth` config to limit nesting depth
+- **feat**: Add `ContextMenuAnimations.slideLeft` animation for left-opening submenus
+- **feat**: Auto-select slideRight/slideLeft animation based on submenu open direction
+- **refactor**: Restructure overlay into `ContextMenuRoot` + `_ContextMenuPanel` architecture
+- **example**: Add submenu playground controls (animation, delays, offset, max depth)
+- **example**: Add Share (2-level nested) and Export As submenu demo items
+
 ## 0.6.1
 
 - **fix**: Use post-frame measurement for accurate menu positioning with custom widget items

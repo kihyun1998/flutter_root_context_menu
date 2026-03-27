@@ -157,6 +157,60 @@ class _PlaygroundContentState extends State<PlaygroundContent> {
               ),
             ),
             ContextMenuItem.divider(),
+            ContextMenuItem.submenu(
+              label: 'Share',
+              icon: const Icon(Icons.share, size: 18),
+              children: [
+                ContextMenuItem(
+                  label: 'Email',
+                  icon: const Icon(Icons.email, size: 18),
+                  onTap: () => widget.onActionChanged('Share via Email'),
+                ),
+                ContextMenuItem(
+                  label: 'Slack',
+                  icon: const Icon(Icons.chat, size: 18),
+                  onTap: () => widget.onActionChanged('Share via Slack'),
+                ),
+                ContextMenuItem.divider(),
+                ContextMenuItem.submenu(
+                  label: 'Social',
+                  icon: const Icon(Icons.public, size: 18),
+                  children: [
+                    ContextMenuItem(
+                      label: 'Twitter',
+                      onTap: () => widget.onActionChanged('Share on Twitter'),
+                    ),
+                    ContextMenuItem(
+                      label: 'Facebook',
+                      onTap: () => widget.onActionChanged('Share on Facebook'),
+                    ),
+                    ContextMenuItem(
+                      label: 'LinkedIn',
+                      onTap: () => widget.onActionChanged('Share on LinkedIn'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            ContextMenuItem.submenu(
+              label: 'Export As',
+              icon: const Icon(Icons.download, size: 18),
+              children: [
+                ContextMenuItem(
+                  label: 'PNG',
+                  onTap: () => widget.onActionChanged('Export as PNG'),
+                ),
+                ContextMenuItem(
+                  label: 'PDF',
+                  onTap: () => widget.onActionChanged('Export as PDF'),
+                ),
+                ContextMenuItem(
+                  label: 'SVG',
+                  onTap: () => widget.onActionChanged('Export as SVG'),
+                ),
+              ],
+            ),
+            ContextMenuItem.divider(),
             ContextMenuItem(
               label: 'Delete',
               icon: const Icon(Icons.delete, size: 18),

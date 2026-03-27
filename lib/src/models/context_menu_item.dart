@@ -55,6 +55,13 @@ class ContextMenuItem {
   /// Falls back to [ContextMenuConfig.itemHeight] if null.
   final double? customHeight;
 
+  /// Child items for submenu. When non-null and non-empty, this item
+  /// opens a submenu on hover or tap instead of executing [onTap].
+  final List<ContextMenuItem>? children;
+
+  /// Whether this item is a submenu (has non-empty children).
+  bool get isSubmenu => children != null && children!.isNotEmpty;
+
   /// Creates a context menu item.
   const ContextMenuItem({
     required this.label,
@@ -65,7 +72,8 @@ class ContextMenuItem {
     this.isDivider = false,
   })  : isCustom = false,
         builder = null,
-        customHeight = null;
+        customHeight = null,
+        children = null;
 
   /// Creates a divider menu item (separator line).
   const ContextMenuItem.divider()
@@ -77,7 +85,8 @@ class ContextMenuItem {
         isDivider = true,
         isCustom = false,
         builder = null,
-        customHeight = null;
+        customHeight = null,
+        children = null;
 
   /// Creates a custom widget menu item.
   ///
@@ -92,5 +101,33 @@ class ContextMenuItem {
         enabled = true,
         textColor = null,
         isDivider = false,
-        isCustom = true;
+        isCustom = true,
+        children = null;
+
+  /// Creates a submenu item that opens a nested menu on hover or tap.
+  ///
+  /// Submenu items display a chevron arrow on the right side and open
+  /// their [children] as a nested menu panel.
+  ///
+  /// ```dart
+  /// ContextMenuItem.submenu(
+  ///   label: 'Share',
+  ///   icon: Icon(Icons.share, size: 18),
+  ///   children: [
+  ///     ContextMenuItem(label: 'Email', onTap: () {}),
+  ///     ContextMenuItem(label: 'Slack', onTap: () {}),
+  ///   ],
+  /// )
+  /// ```
+  const ContextMenuItem.submenu({
+    required this.label,
+    required List<ContextMenuItem> this.children,
+    this.icon,
+    this.enabled = true,
+    this.textColor,
+  })  : isDivider = false,
+        isCustom = false,
+        builder = null,
+        customHeight = null,
+        onTap = null;
 }
