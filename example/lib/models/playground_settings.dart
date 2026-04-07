@@ -150,14 +150,16 @@ class PlaygroundSettings {
               ),
             ]
           : null,
-      submenuOpenDelay: Duration(milliseconds: submenuOpenDelay.toInt()),
-      submenuCloseDelay: Duration(milliseconds: submenuCloseDelay.toInt()),
-      submenuHorizontalOffset: submenuHorizontalOffset,
-      submenuAnimationBuilder: submenuAnimation,
-      submenuAnimationDuration: useSubmenuAnimationDuration
-          ? Duration(milliseconds: submenuAnimationDuration.toInt())
-          : null,
-      maxSubmenuDepth: maxSubmenuDepth,
+      submenu: SubmenuConfig(
+        openDelay: Duration(milliseconds: submenuOpenDelay.toInt()),
+        closeDelay: Duration(milliseconds: submenuCloseDelay.toInt()),
+        horizontalOffset: submenuHorizontalOffset,
+        animationBuilder: submenuAnimation,
+        animationDuration: useSubmenuAnimationDuration
+            ? Duration(milliseconds: submenuAnimationDuration.toInt())
+            : null,
+        maxDepth: maxSubmenuDepth,
+      ),
     );
   }
 }

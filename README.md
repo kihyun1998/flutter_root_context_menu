@@ -18,7 +18,7 @@ A customizable context menu package for Flutter with animation support, flexible
 
 ```yaml
 dependencies:
-  flutter_root_context_menu: ^0.7.0
+  flutter_root_context_menu: ^0.8.0
 ```
 
 ## Quick Start
@@ -82,7 +82,7 @@ ContextMenuItem.submenu(
 ```
 
 Submenus support:
-- Unlimited nesting depth (configurable via `maxSubmenuDepth`)
+- Unlimited nesting depth (configurable via `SubmenuConfig.maxDepth`)
 - Auto left/right flip when hitting screen edges
 - Hover open/close with configurable delays
 - Tap to open on touch devices
@@ -119,12 +119,15 @@ ContextMenuConfig(
   animationBuilder: ContextMenuAnimations.popup,
 
   // Submenu
-  submenuOpenDelay: Duration(milliseconds: 200),
-  submenuCloseDelay: Duration(milliseconds: 300),
-  submenuHorizontalOffset: -4.0,
-  submenuAnimationBuilder: null,       // null = auto (slideRight/slideLeft)
-  submenuAnimationDuration: null,      // null = use animationDuration
-  maxSubmenuDepth: 5,
+  submenu: SubmenuConfig(
+    openDelay: Duration(milliseconds: 200),
+    closeDelay: Duration(milliseconds: 300),
+    horizontalOffset: -4.0,
+    animationBuilder: null,            // null = auto (slideRight/slideLeft)
+    animationDuration: null,           // null = use animationDuration
+    maxDepth: 5,
+    icon: null,                        // null = default chevron_right
+  ),
 )
 ```
 

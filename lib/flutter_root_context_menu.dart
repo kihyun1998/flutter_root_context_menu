@@ -9,5 +9,6 @@ export 'src/models/context_menu_animation.dart';
 export 'src/models/context_menu_config.dart';
 // Models
 export 'src/models/context_menu_item.dart';
+export 'src/models/submenu_config.dart';
 // Widgets
 export 'src/widgets/context_menu_area.dart';

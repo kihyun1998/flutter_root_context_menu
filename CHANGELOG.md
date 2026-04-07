@@ -1,3 +1,14 @@
+## 0.8.0
+
+- **BREAKING**: Extract submenu options from `ContextMenuConfig` into new `SubmenuConfig` class
+  - `submenuOpenDelay` → `submenu.openDelay`
+  - `submenuCloseDelay` → `submenu.closeDelay`
+  - `submenuHorizontalOffset` → `submenu.horizontalOffset`
+  - `submenuAnimationBuilder` → `submenu.animationBuilder`
+  - `submenuAnimationDuration` → `submenu.animationDuration`
+  - `maxSubmenuDepth` → `submenu.maxDepth`
+- **feat**: Add `SubmenuConfig.icon` for customizing the submenu trailing icon (default: `Icons.chevron_right`)
+
 ## 0.7.0
 
 - **feat**: Add `ContextMenuItem.submenu()` for nested submenu support with unlimited depth

@@ -155,7 +155,7 @@ class _ContextMenuRootState extends State<ContextMenuRoot> {
         screenSize: screenSize,
         areaConstraints: widget.areaConstraints,
         padding: widget.config.screenPadding,
-        horizontalOffset: widget.config.submenuHorizontalOffset,
+        horizontalOffset: widget.config.submenu.horizontalOffset,
       );
 
       final openedLeft = newPos.dx < parentBounds.left;
@@ -185,7 +185,7 @@ class _ContextMenuRootState extends State<ContextMenuRoot> {
       List<ContextMenuItem> children) {
     if (!mounted) return;
     // Enforce max depth
-    if (parentDepth + 1 >= widget.config.maxSubmenuDepth) return;
+    if (parentDepth + 1 >= widget.config.submenu.maxDepth) return;
 
     // Close any existing deeper submenus
     _closeSubmenusFrom(parentDepth + 1);
@@ -225,7 +225,7 @@ class _ContextMenuRootState extends State<ContextMenuRoot> {
 
     // Schedule opening
     _cancelOpenTimer();
-    _openTimer = Timer(widget.config.submenuOpenDelay, () {
+    _openTimer = Timer(widget.config.submenu.openDelay, () {
       if (!mounted) return;
       _openSubmenu(depth, itemIndex, triggerItemKey, children);
     });
@@ -234,7 +234,7 @@ class _ContextMenuRootState extends State<ContextMenuRoot> {
   void _handleSubmenuItemUnhover(int depth, int itemIndex) {
     _setCloseTimer(
       depth + 1,
-      Timer(widget.config.submenuCloseDelay, () {
+      Timer(widget.config.submenu.closeDelay, () {
         if (!mounted) return;
         _closeSubmenusFrom(depth + 1);
       }),
@@ -260,7 +260,7 @@ class _ContextMenuRootState extends State<ContextMenuRoot> {
     if (depth == 0) return;
     _setCloseTimer(
       depth,
-      Timer(widget.config.submenuCloseDelay, () {
+      Timer(widget.config.submenu.closeDelay, () {
         if (!mounted) return;
         _closeSubmenusFrom(depth);
       }),
@@ -348,8 +348,8 @@ class _ContextMenuPanel extends StatelessWidget {
     if (depth == 0) {
       return config.animationBuilder ?? ContextMenuAnimations.popup;
     }
-    if (config.submenuAnimationBuilder != null) {
-      return config.submenuAnimationBuilder!;
+    if (config.submenu.animationBuilder != null) {
+      return config.submenu.animationBuilder!;
     }
     return openedLeft
         ? ContextMenuAnimations.slideLeft
@@ -428,8 +428,8 @@ class _ContextMenuPanel extends StatelessWidget {
             key: measured ? const ValueKey('animated') : null,
             tween: Tween(begin: measured ? 0.0 : 1.0, end: 1.0),
             duration: measured
-                ? (depth > 0 && config.submenuAnimationDuration != null
-                    ? config.submenuAnimationDuration!
+                ? (depth > 0 && config.submenu.animationDuration != null
+                    ? config.submenu.animationDuration!
                     : config.animationDuration)
                 : Duration.zero,
             builder: (context, value, child) {
