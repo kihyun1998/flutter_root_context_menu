@@ -124,11 +124,11 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
                   ),
                 ),
                 if (widget.item.isSubmenu)
-                  Opacity(
-                    opacity: widget.item.enabled ? 0.6 : 0.3,
-                    child: widget.config.submenu.icon ??
-                        const Icon(Icons.chevron_right, size: 16),
-                  ),
+                  widget.config.submenu.icon ??
+                      Opacity(
+                        opacity: widget.item.enabled ? 0.6 : 0.3,
+                        child: const Icon(Icons.chevron_right, size: 16),
+                      ),
               ],
             ),
           ),

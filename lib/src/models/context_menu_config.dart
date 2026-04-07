@@ -162,7 +162,7 @@ class ContextMenuConfig {
   ///   submenu: SubmenuConfig(
   ///     openDelay: Duration(milliseconds: 300),
   ///     maxDepth: 3,
-  ///     icon: Icon(Icons.arrow_right, size: 14),
+  ///     icon: Icon(Icons.arrow_right, size: 16),
   ///   ),
   /// )
   /// ```

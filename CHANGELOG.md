@@ -8,6 +8,8 @@
   - `submenuAnimationDuration` → `submenu.animationDuration`
   - `maxSubmenuDepth` → `submenu.maxDepth`
 - **feat**: Add `SubmenuConfig.icon` for customizing the submenu trailing icon (default: `Icons.chevron_right`)
+- **feat**: Add `SubmenuConfig.copyWith()` for ergonomic single-field updates
+- **fix**: Custom submenu icon no longer has forced `Opacity` wrapper — rendered as-is for full styling control
 
 ## 0.7.0
 

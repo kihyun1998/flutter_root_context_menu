@@ -37,10 +37,10 @@ class PlaygroundSettings {
   String submenuAnimationName;
   double submenuAnimationDuration;
   bool useSubmenuAnimationDuration;
-  double submenuOpenDelay;
-  double submenuCloseDelay;
-  double submenuHorizontalOffset;
-  int maxSubmenuDepth;
+  double openDelay;
+  double closeDelay;
+  double horizontalOffset;
+  int maxDepth;
 
   // BoxShadow settings
   bool useCustomBoxShadow;
@@ -76,10 +76,10 @@ class PlaygroundSettings {
     this.submenuAnimationName = 'Auto',
     this.submenuAnimationDuration = 200,
     this.useSubmenuAnimationDuration = false,
-    this.submenuOpenDelay = 200,
-    this.submenuCloseDelay = 300,
-    this.submenuHorizontalOffset = -4,
-    this.maxSubmenuDepth = 5,
+    this.openDelay = 200,
+    this.closeDelay = 300,
+    this.horizontalOffset = -4,
+    this.maxDepth = 5,
     this.useCustomBoxShadow = false,
     this.shadowBlurRadius = 10.0,
     this.shadowOffsetX = 0.0,
@@ -151,14 +151,14 @@ class PlaygroundSettings {
             ]
           : null,
       submenu: SubmenuConfig(
-        openDelay: Duration(milliseconds: submenuOpenDelay.toInt()),
-        closeDelay: Duration(milliseconds: submenuCloseDelay.toInt()),
-        horizontalOffset: submenuHorizontalOffset,
+        openDelay: Duration(milliseconds: openDelay.toInt()),
+        closeDelay: Duration(milliseconds: closeDelay.toInt()),
+        horizontalOffset: horizontalOffset,
         animationBuilder: submenuAnimation,
         animationDuration: useSubmenuAnimationDuration
             ? Duration(milliseconds: submenuAnimationDuration.toInt())
             : null,
-        maxDepth: maxSubmenuDepth,
+        maxDepth: maxDepth,
       ),
     );
   }

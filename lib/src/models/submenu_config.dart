@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'context_menu_animation.dart';
 
 /// Configuration for submenu behavior and appearance.
@@ -29,7 +29,7 @@ class SubmenuConfig {
 
   /// Duration of the submenu appearance animation.
   ///
-  /// If null, falls back to [ContextMenuConfig.animationDuration].
+  /// If null, falls back to the parent [ContextMenuConfig.animationDuration].
   final Duration? animationDuration;
 
   /// Maximum submenu nesting depth to prevent infinite recursion.
@@ -40,12 +40,16 @@ class SubmenuConfig {
 
   /// Custom icon widget displayed on the right side of submenu items.
   ///
-  /// Defaults to a chevron right icon when null.
+  /// When null, a default `Icon(Icons.chevron_right, size: 16)` is used
+  /// with an `Opacity` wrapper (0.6 when enabled, 0.3 when disabled).
+  ///
+  /// When provided, the icon is rendered as-is without any opacity
+  /// modification, giving full control over styling.
   ///
   /// Example:
   /// ```dart
   /// SubmenuConfig(
-  ///   icon: Icon(Icons.arrow_right, size: 14, color: Colors.blue),
+  ///   icon: Icon(Icons.arrow_right, size: 16, color: Colors.blue),
   /// )
   /// ```
   final Widget? icon;
@@ -60,4 +64,47 @@ class SubmenuConfig {
     this.maxDepth = 5,
     this.icon,
   });
+
+  /// Creates a copy of this config with the given fields replaced.
+  SubmenuConfig copyWith({
+    Duration? openDelay,
+    Duration? closeDelay,
+    double? horizontalOffset,
+    ContextMenuAnimationBuilder? animationBuilder,
+    Duration? animationDuration,
+    int? maxDepth,
+    Widget? icon,
+  }) {
+    return SubmenuConfig(
+      openDelay: openDelay ?? this.openDelay,
+      closeDelay: closeDelay ?? this.closeDelay,
+      horizontalOffset: horizontalOffset ?? this.horizontalOffset,
+      animationBuilder: animationBuilder ?? this.animationBuilder,
+      animationDuration: animationDuration ?? this.animationDuration,
+      maxDepth: maxDepth ?? this.maxDepth,
+      icon: icon ?? this.icon,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SubmenuConfig &&
+          runtimeType == other.runtimeType &&
+          openDelay == other.openDelay &&
+          closeDelay == other.closeDelay &&
+          horizontalOffset == other.horizontalOffset &&
+          animationBuilder == other.animationBuilder &&
+          animationDuration == other.animationDuration &&
+          maxDepth == other.maxDepth;
+
+  @override
+  int get hashCode => Object.hash(
+        openDelay,
+        closeDelay,
+        horizontalOffset,
+        animationBuilder,
+        animationDuration,
+        maxDepth,
+      );
 }
