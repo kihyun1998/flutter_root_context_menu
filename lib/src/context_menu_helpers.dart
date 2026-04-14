@@ -31,6 +31,7 @@ void showRootContextMenu({
   required Offset position,
   required List<ContextMenuItem> items,
   ContextMenuConfig? config,
+  String? title,
 }) {
   // Get area constraints from the nearest ContextMenuArea
   final areaConstraints = ContextMenuArea.of(context);
@@ -41,6 +42,7 @@ void showRootContextMenu({
     items: items,
     config: config,
     areaConstraints: areaConstraints,
+    title: title,
   );
 }
 

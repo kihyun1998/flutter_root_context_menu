@@ -17,6 +17,7 @@ class SecondPage extends StatelessWidget {
             showRootContextMenu(
               context: context,
               position: details.globalPosition,
+              title: 'Second Screen',
               items: [
                 ContextMenuItem(
                   label: 'Go Back',

@@ -5,6 +5,7 @@ A customizable context menu package for Flutter with animation support, flexible
 ## Features
 
 - Manual trigger with full control over position and timing
+- Optional menu title (header label) to distinguish menus from different sources
 - Nested submenu support with unlimited depth
 - 9 built-in animations + custom animation support
 - Custom widget items (Switch, Checkbox, Slider, etc.)
@@ -18,7 +19,7 @@ A customizable context menu package for Flutter with animation support, flexible
 
 ```yaml
 dependencies:
-  flutter_root_context_menu: ^0.8.0
+  flutter_root_context_menu: ^0.9.0
 ```
 
 ## Quick Start
@@ -50,6 +51,25 @@ GestureDetector(
   child: Text('Right-click me'),
 )
 ```
+
+## Menu Title
+
+Show a header label at the top of the root menu — useful when multiple widgets share similar menus and you want the user to know what they right-clicked.
+
+```dart
+showRootContextMenu(
+  context: context,
+  position: details.globalPosition,
+  title: 'File Options',
+  items: [
+    ContextMenuItem(label: 'Open', onTap: () {}),
+    ContextMenuItem(label: 'Rename', onTap: () {}),
+    ContextMenuItem(label: 'Delete', onTap: () {}),
+  ],
+);
+```
+
+Customize via `ContextMenuConfig.titleStyle` and `ContextMenuConfig.titlePadding`. Title is rendered only on the root menu (not submenus) and is followed by a divider.
 
 ## Menu Item Types
 
@@ -113,6 +133,14 @@ ContextMenuConfig(
   menuPadding: EdgeInsets.zero,
   iconWidth: 0,
   iconSpacing: 0,
+
+  // Title (header label, shown when `title` is passed to showRootContextMenu)
+  titleStyle: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: Color(0xFF757575),
+  ),
+  titlePadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
 
   // Animation
   animationDuration: Duration(milliseconds: 200),

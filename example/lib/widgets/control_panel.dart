@@ -29,6 +29,7 @@ class ControlPanel extends StatelessWidget {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
+          _buildTitleSection(),
           _buildAnimationSection(),
           _buildStyleSection(),
           _buildScreenPaddingSection(),
@@ -38,6 +39,34 @@ class ControlPanel extends StatelessWidget {
           _buildBoxShadowSection(),
         ],
       ),
+    );
+  }
+
+  Widget _buildTitleSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text(
+              'Menu Title',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            const Spacer(),
+            Switch(
+              value: settings.showTitle,
+              onChanged: (v) => _update(() => settings.showTitle = v),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        _TitleField(
+          initialValue: settings.title,
+          enabled: settings.showTitle,
+          onChanged: (v) => _update(() => settings.title = v),
+        ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 
@@ -659,6 +688,47 @@ class ControlPanel extends StatelessWidget {
           style: const TextStyle(color: Colors.white, fontSize: 12),
         ),
       ),
+    );
+  }
+}
+
+class _TitleField extends StatefulWidget {
+  final String initialValue;
+  final bool enabled;
+  final ValueChanged<String> onChanged;
+
+  const _TitleField({
+    required this.initialValue,
+    required this.enabled,
+    required this.onChanged,
+  });
+
+  @override
+  State<_TitleField> createState() => _TitleFieldState();
+}
+
+class _TitleFieldState extends State<_TitleField> {
+  late final TextEditingController _controller = TextEditingController(
+    text: widget.initialValue,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: _controller,
+      enabled: widget.enabled,
+      decoration: const InputDecoration(
+        isDense: true,
+        border: OutlineInputBorder(),
+        hintText: 'Enter menu title',
+      ),
+      onChanged: widget.onChanged,
     );
   }
 }

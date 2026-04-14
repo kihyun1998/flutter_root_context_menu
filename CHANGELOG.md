@@ -1,3 +1,9 @@
+## 0.9.0
+
+- **feat**: Add optional `title` parameter to `showRootContextMenu()` for displaying a header label at the top of the root menu (useful for distinguishing context menus from different sources)
+- **feat**: Add `titleStyle` and `titlePadding` to `ContextMenuConfig` for customizing title appearance
+- **example**: Add Menu Title section to the playground control panel (toggle + text field)
+
 ## 0.8.0
 
 - **BREAKING**: Extract submenu options from `ContextMenuConfig` into new `SubmenuConfig` class

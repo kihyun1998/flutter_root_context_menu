@@ -10,12 +10,14 @@ class PlaygroundContent extends StatefulWidget {
   final String lastAction;
   final ValueChanged<String> onActionChanged;
   final ContextMenuConfig config;
+  final String? title;
 
   const PlaygroundContent({
     super.key,
     required this.lastAction,
     required this.onActionChanged,
     required this.config,
+    this.title,
   });
 
   @override
@@ -43,6 +45,7 @@ class _PlaygroundContentState extends State<PlaygroundContent> {
         showRootContextMenu(
           context: context,
           position: details.globalPosition,
+          title: widget.title,
           items: [
             ContextMenuItem(
               label: 'Copy',

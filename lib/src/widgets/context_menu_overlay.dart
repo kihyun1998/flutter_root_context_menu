@@ -39,6 +39,7 @@ class ContextMenuRoot extends StatefulWidget {
   final List<ContextMenuItem> items;
   final ContextMenuConfig config;
   final Rect? areaConstraints;
+  final String? title;
 
   const ContextMenuRoot({
     super.key,
@@ -46,6 +47,7 @@ class ContextMenuRoot extends StatefulWidget {
     required this.items,
     required this.config,
     this.areaConstraints,
+    this.title,
   });
 
   @override
@@ -293,6 +295,7 @@ class _ContextMenuRootState extends State<ContextMenuRoot> {
             items: _menuStack[i].items,
             position: _menuStack[i].position,
             config: widget.config,
+            title: i == 0 ? widget.title : null,
             depth: i,
             measured: _menuStack[i].measured,
             openedLeft: _menuStack[i].openedLeft,
@@ -316,6 +319,7 @@ class _ContextMenuPanel extends StatelessWidget {
   final List<ContextMenuItem> items;
   final Offset position;
   final ContextMenuConfig config;
+  final String? title;
   final int depth;
   final bool measured;
   final bool openedLeft;
@@ -333,6 +337,7 @@ class _ContextMenuPanel extends StatelessWidget {
     required this.items,
     required this.position,
     required this.config,
+    required this.title,
     required this.depth,
     required this.measured,
     required this.openedLeft,
@@ -368,6 +373,19 @@ class _ContextMenuPanel extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            if (title != null) ...[
+              Padding(
+                padding: config.titlePadding,
+                child: Text(
+                  title!,
+                  style: config.titleStyle,
+                ),
+              ),
+              Padding(
+                padding: config.dividerMargin,
+                child: const Divider(height: 1, thickness: 1),
+              ),
+            ],
             for (var i = 0; i < items.length; i++)
               ContextMenuItemWidget(
                 item: items[i],

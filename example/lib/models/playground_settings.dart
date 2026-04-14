@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_root_context_menu/flutter_root_context_menu.dart';
 
 class PlaygroundSettings {
+  // Title settings
+  String title;
+  bool showTitle;
+
   // Animation settings
   ContextMenuAnimationBuilder selectedAnimation;
   String animationName;
@@ -52,6 +56,8 @@ class PlaygroundSettings {
   Color shadowColor;
 
   PlaygroundSettings({
+    this.title = 'Playground Menu',
+    this.showTitle = true,
     this.selectedAnimation = ContextMenuAnimations.popup,
     this.animationName = 'Popup',
     this.animationDuration = 200,

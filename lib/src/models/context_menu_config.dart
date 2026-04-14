@@ -168,6 +168,15 @@ class ContextMenuConfig {
   /// ```
   final SubmenuConfig submenu;
 
+  /// Text style for the optional menu title (header label).
+  ///
+  /// Used when a `title` is passed to [showRootContextMenu]. The title is
+  /// rendered at the top of the root menu followed by a divider.
+  final TextStyle titleStyle;
+
+  /// Padding around the optional menu title.
+  final EdgeInsets titlePadding;
+
   /// Creates a context menu configuration with customizable styling.
   const ContextMenuConfig({
     this.backgroundColor = Colors.white,
@@ -190,5 +199,12 @@ class ContextMenuConfig {
     this.iconSpacing = 0,
     this.boxShadow,
     this.submenu = const SubmenuConfig(),
+    this.titleStyle = const TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF757575),
+    ),
+    this.titlePadding =
+        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
   });
 }

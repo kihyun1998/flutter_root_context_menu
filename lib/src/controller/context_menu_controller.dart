@@ -22,6 +22,7 @@ class RootContextMenuController {
     required List<ContextMenuItem> items,
     ContextMenuConfig? config,
     Rect? areaConstraints,
+    String? title,
   }) {
     // Close any existing menu first
     hideMenu();
@@ -34,6 +35,7 @@ class RootContextMenuController {
         items: items,
         config: effectiveConfig,
         areaConstraints: areaConstraints,
+        title: title,
       ),
     );
 
