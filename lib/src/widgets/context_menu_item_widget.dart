@@ -101,34 +101,30 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
             child: Row(
               children: [
                 if (widget.item.icon != null) ...[
-                  Opacity(
-                    opacity: widget.item.enabled ? 1.0 : 0.4,
-                    child: widget.config.iconWidth > 0
-                        ? SizedBox(
-                            width: widget.config.iconWidth,
-                            child: widget.item.icon,
-                          )
-                        : widget.item.icon,
-                  ),
+                  widget.config.iconWidth > 0
+                      ? SizedBox(
+                          width: widget.config.iconWidth,
+                          child: widget.item.icon,
+                        )
+                      : widget.item.icon!,
                   if (widget.config.iconSpacing > 0)
                     SizedBox(width: widget.config.iconSpacing),
                 ],
                 Expanded(
                   child: Text(
                     widget.item.label,
-                    style: widget.config.textStyle.copyWith(
-                      color: widget.item.enabled
-                          ? widget.item.textColor
-                          : Colors.grey,
-                    ),
+                    style: widget.item.enabled
+                        ? widget.config.textStyle.copyWith(
+                            color: widget.item.textColor,
+                          )
+                        : (widget.config.disabledTextStyle ??
+                            widget.config.textStyle
+                                .copyWith(color: Colors.grey)),
                   ),
                 ),
                 if (widget.item.isSubmenu)
                   widget.config.submenu.icon ??
-                      Opacity(
-                        opacity: widget.item.enabled ? 0.6 : 0.3,
-                        child: const Icon(Icons.chevron_right, size: 16),
-                      ),
+                      const Icon(Icons.chevron_right, size: 16),
               ],
             ),
           ),

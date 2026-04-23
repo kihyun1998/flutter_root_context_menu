@@ -36,6 +36,7 @@ class ControlPanel extends StatelessWidget {
           _buildItemStylingSection(),
           _buildDividerMenuSection(),
           _buildSubmenuSection(),
+          _buildDisabledStateSection(),
           _buildBoxShadowSection(),
         ],
       ),
@@ -447,6 +448,88 @@ class ControlPanel extends StatelessWidget {
     );
   }
 
+  Widget _buildDisabledStateSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Disabled State',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            const Text(
+              'Custom Disabled Text Style',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            const Spacer(),
+            Switch(
+              value: settings.useCustomDisabledTextStyle,
+              onChanged: (v) =>
+                  _update(() => settings.useCustomDisabledTextStyle = v),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        if (settings.useCustomDisabledTextStyle) ...[
+          const Text(
+            'Disabled Text Color',
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: [
+              _disabledColorButton(Colors.grey, 'Grey'),
+              _disabledColorButton(Colors.grey.shade400, 'Light Grey'),
+              _disabledColorButton(Colors.red.shade200, 'Red'),
+              _disabledColorButton(Colors.blue.shade200, 'Blue'),
+              _disabledColorButton(Colors.orange.shade300, 'Orange'),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              const Text(
+                'Italic',
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+              const Spacer(),
+              Switch(
+                value: settings.disabledItalic,
+                onChanged: (v) => _update(() => settings.disabledItalic = v),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+        ],
+        const Text(
+          'Disabled Icon Color (call-site)',
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(height: 4),
+        const Text(
+          'Applied in the demo by passing `color:` to the icon widget — '
+          'the library does not style user-provided icons.',
+          style: TextStyle(fontSize: 11, color: Colors.black54),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          children: [
+            _disabledIconColorButton(Colors.grey, 'Grey'),
+            _disabledIconColorButton(Colors.grey.shade400, 'Light Grey'),
+            _disabledIconColorButton(Colors.red.shade200, 'Red'),
+            _disabledIconColorButton(Colors.blue.shade200, 'Blue'),
+            _disabledIconColorButton(Colors.orange.shade300, 'Orange'),
+          ],
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
   Widget _buildBoxShadowSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -646,6 +729,60 @@ class ControlPanel extends StatelessWidget {
           }
         });
       },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(
+            color: isSelected ? Colors.blue : Colors.grey.shade300,
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+            fontSize: 12,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _disabledColorButton(Color color, String label) {
+    final isSelected = settings.disabledTextColor == color;
+
+    return GestureDetector(
+      onTap: () => _update(() => settings.disabledTextColor = color),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(
+            color: isSelected ? Colors.blue : Colors.grey.shade300,
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+            fontSize: 12,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _disabledIconColorButton(Color color, String label) {
+    final isSelected = settings.disabledIconColor == color;
+
+    return GestureDetector(
+      onTap: () => _update(() => settings.disabledIconColor = color),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(

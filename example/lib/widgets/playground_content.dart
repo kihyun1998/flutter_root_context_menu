@@ -11,12 +11,14 @@ class PlaygroundContent extends StatefulWidget {
   final ValueChanged<String> onActionChanged;
   final ContextMenuConfig config;
   final String? title;
+  final Color disabledIconColor;
 
   const PlaygroundContent({
     super.key,
     required this.lastAction,
     required this.onActionChanged,
     required this.config,
+    required this.disabledIconColor,
     this.title,
   });
 
@@ -56,6 +58,28 @@ class _PlaygroundContentState extends State<PlaygroundContent> {
               label: 'Paste',
               icon: const Icon(Icons.paste, size: 18),
               onTap: () => widget.onActionChanged('Paste clicked'),
+            ),
+            // Disabled items: icons are rendered as-is by the library,
+            // so color them at call-site to reflect the disabled state.
+            ContextMenuItem(
+              label: 'Cut (disabled)',
+              icon: Icon(
+                Icons.content_cut,
+                size: 18,
+                color: widget.disabledIconColor,
+              ),
+              enabled: false,
+              onTap: () => widget.onActionChanged('Cut clicked'),
+            ),
+            ContextMenuItem.submenu(
+              label: 'Archive (disabled)',
+              icon: Icon(
+                Icons.archive,
+                size: 18,
+                color: widget.disabledIconColor,
+              ),
+              enabled: false,
+              children: const [ContextMenuItem(label: 'Never shown')],
             ),
             ContextMenuItem.divider(),
             ContextMenuItem.custom(

@@ -1,3 +1,9 @@
+## 0.10.0
+
+- **BREAKING**: Remove implicit `Opacity` wrappers on menu item icons and the default submenu chevron. Previously, disabled items dimmed the icon to `0.4` and the default chevron to `0.3`/`0.6`. Icons are now rendered as-is regardless of `enabled`. Policy: the library styles only what it renders (text, default chevron); user-provided widgets are rendered unchanged. If you want icons to reflect the disabled state, build the icon widget accordingly at call-site (e.g. `Icon(Icons.cut, color: Colors.grey)`).
+- **feat**: Add `disabledTextStyle` to `ContextMenuConfig` for customizing the text style of disabled menu items. Replaces `textStyle` and ignores `ContextMenuItem.textColor` when set. Falls back to `textStyle.copyWith(color: Colors.grey)` when `null`.
+- **example**: Add Disabled State section to the playground control panel and sample disabled items (standard + submenu) to the demo menu.
+
 ## 0.9.0
 
 - **feat**: Add optional `title` parameter to `showRootContextMenu()` for displaying a header label at the top of the root menu (useful for distinguishing context menus from different sources)

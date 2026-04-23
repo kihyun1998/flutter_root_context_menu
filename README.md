@@ -117,6 +117,7 @@ ContextMenuConfig(
   backgroundColor: Colors.white,
   hoverColor: Color(0xFFE0E0E0),
   textStyle: TextStyle(fontSize: 14),
+  disabledTextStyle: null,             // null = textStyle with Colors.grey
   itemHeight: 40.0,
   minWidth: 180.0,
   maxWidth: 280.0,

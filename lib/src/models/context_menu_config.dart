@@ -13,6 +13,30 @@ class ContextMenuConfig {
   /// Text style for menu item labels.
   final TextStyle textStyle;
 
+  /// Text style for disabled menu item labels.
+  ///
+  /// When provided, this style is applied as-is to disabled items
+  /// (replacing [textStyle] and ignoring [ContextMenuItem.textColor]).
+  ///
+  /// When null, disabled items fall back to `textStyle.copyWith(color: Colors.grey)`.
+  ///
+  /// Note: icons ([ContextMenuItem.icon] and [SubmenuConfig.icon]) are
+  /// rendered as-is regardless of enabled state. If you want icons to
+  /// visually reflect the disabled state, build the icon widget accordingly
+  /// at call-site.
+  ///
+  /// Example:
+  /// ```dart
+  /// ContextMenuConfig(
+  ///   disabledTextStyle: TextStyle(
+  ///     fontSize: 14,
+  ///     color: Colors.grey.shade400,
+  ///     fontStyle: FontStyle.italic,
+  ///   ),
+  /// )
+  /// ```
+  final TextStyle? disabledTextStyle;
+
   /// Height of each menu item.
   final double itemHeight;
 
@@ -182,6 +206,7 @@ class ContextMenuConfig {
     this.backgroundColor = Colors.white,
     this.hoverColor = const Color(0xFFE0E0E0),
     this.textStyle = const TextStyle(fontSize: 14),
+    this.disabledTextStyle,
     this.itemHeight = 40.0,
     this.minWidth = 180.0,
     this.maxWidth = 280.0,

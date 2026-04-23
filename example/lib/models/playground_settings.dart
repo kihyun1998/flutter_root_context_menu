@@ -20,6 +20,16 @@ class PlaygroundSettings {
   double minWidth;
   double maxWidth;
 
+  // Disabled state settings
+  bool useCustomDisabledTextStyle;
+  Color disabledTextColor;
+  bool disabledItalic;
+
+  /// Demo-only: color applied at call-site to icons of disabled items.
+  /// The library does not style user-provided icon widgets, so this is
+  /// just a demonstration of the pattern users should follow themselves.
+  Color disabledIconColor;
+
   // Screen padding settings
   double paddingTop;
   double paddingBottom;
@@ -68,6 +78,10 @@ class PlaygroundSettings {
     this.itemHeight = 40.0,
     this.minWidth = 180.0,
     this.maxWidth = 280.0,
+    this.useCustomDisabledTextStyle = false,
+    this.disabledTextColor = Colors.grey,
+    this.disabledItalic = false,
+    this.disabledIconColor = Colors.grey,
     this.paddingTop = 0,
     this.paddingBottom = 10,
     this.paddingLeft = 0,
@@ -124,6 +138,13 @@ class PlaygroundSettings {
       backgroundColor: backgroundColor,
       hoverColor: hoverColor,
       textStyle: TextStyle(color: textColor, fontSize: 14),
+      disabledTextStyle: useCustomDisabledTextStyle
+          ? TextStyle(
+              color: disabledTextColor,
+              fontSize: 14,
+              fontStyle: disabledItalic ? FontStyle.italic : FontStyle.normal,
+            )
+          : null,
       elevation: elevation,
       itemHeight: itemHeight,
       minWidth: minWidth,

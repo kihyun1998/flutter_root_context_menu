@@ -112,6 +112,36 @@ ContextMenuItem(
 )
 ```
 
+### Customizing Disabled Text
+
+Use `disabledTextStyle` on `ContextMenuConfig` to control how the label text
+of disabled items looks.
+
+```dart
+ContextMenuConfig(
+  disabledTextStyle: TextStyle(
+    fontSize: 14,
+    color: Colors.grey.shade400,
+    fontStyle: FontStyle.italic,
+  ),
+)
+```
+
+- When set, replaces `textStyle` for disabled items and ignores
+  `ContextMenuItem.textColor`.
+- When `null`, falls back to `textStyle.copyWith(color: Colors.grey)`.
+
+**Icons are rendered as-is regardless of `enabled`.** If you want an icon to
+visually reflect the disabled state, build it conditionally at call-site:
+
+```dart
+ContextMenuItem(
+  label: 'Cut',
+  icon: Icon(Icons.content_cut, size: 18, color: Colors.grey),
+  enabled: false,
+)
+```
+
 ## macOS-style Preset
 
 ```dart
