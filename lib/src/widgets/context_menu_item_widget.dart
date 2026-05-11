@@ -58,6 +58,9 @@ class _ContextMenuItemWidgetState extends State<ContextMenuItemWidget> {
     return Padding(
       padding: widget.config.itemMargin,
       child: MouseRegion(
+        cursor: widget.item.enabled
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.forbidden,
         onEnter: (_) {
           setState(() => _isHovered = true);
           if (widget.item.isSubmenu && widget.item.enabled) {

@@ -1,3 +1,7 @@
+## 0.10.1
+
+- **fix**: Add explicit `mouseCursor` to menu items — `SystemMouseCursors.click` for enabled items, `SystemMouseCursors.forbidden` for disabled. Required after Flutter updates where `GestureDetector` no longer implicitly switches the cursor on hover.
+
 ## 0.10.0
 
 - **BREAKING**: Remove implicit `Opacity` wrappers on menu item icons and the default submenu chevron. Previously, disabled items dimmed the icon to `0.4` and the default chevron to `0.3`/`0.6`. Icons are now rendered as-is regardless of `enabled`. Policy: the library styles only what it renders (text, default chevron); user-provided widgets are rendered unchanged. If you want icons to reflect the disabled state, build the icon widget accordingly at call-site (e.g. `Icon(Icons.cut, color: Colors.grey)`).
