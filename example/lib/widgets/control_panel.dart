@@ -30,6 +30,7 @@ class ControlPanel extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           _buildTitleSection(),
+          _buildBarrierSection(),
           _buildAnimationSection(),
           _buildStyleSection(),
           _buildScreenPaddingSection(),
@@ -40,6 +41,32 @@ class ControlPanel extends StatelessWidget {
           _buildBoxShadowSection(),
         ],
       ),
+    );
+  }
+
+  Widget _buildBarrierSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text(
+              'Barrier',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            const Spacer(),
+            Switch(
+              value: settings.useBarrier,
+              onChanged: (v) => _update(() => settings.useBarrier = v),
+            ),
+          ],
+        ),
+        const Text(
+          'Block hover, clicks and scroll outside the open menu',
+          style: TextStyle(fontSize: 12, color: Colors.grey),
+        ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 

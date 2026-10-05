@@ -6,6 +6,7 @@ A customizable context menu package for Flutter with animation support, flexible
 
 - Manual trigger with full control over position and timing
 - Optional menu title (header label) to distinguish menus from different sources
+- Optional barrier that blocks the UI behind an open menu
 - Nested submenu support with unlimited depth
 - 9 built-in animations + custom animation support
 - Custom widget items (Switch, Checkbox, Slider, etc.)
@@ -19,7 +20,7 @@ A customizable context menu package for Flutter with animation support, flexible
 
 ```yaml
 dependencies:
-  flutter_root_context_menu: ^0.10.1
+  flutter_root_context_menu: ^0.11.0
 ```
 
 ## Quick Start
@@ -70,6 +71,21 @@ showRootContextMenu(
 ```
 
 Customize via `ContextMenuConfig.titleStyle` and `ContextMenuConfig.titlePadding`. Title is rendered only on the root menu (not submenus) and is followed by a divider.
+
+## Barrier
+
+By default, widgets behind an open menu keep reacting to the pointer — hover effects, cursors and scrolling still work, and a click outside closes the menu and also reaches the widget underneath. Pass `useBarrier: true` to block pointer input (hover, clicks, scrolling) outside the menu while it is open:
+
+```dart
+showRootContextMenu(
+  context: context,
+  position: details.globalPosition,
+  useBarrier: true,
+  items: [...],
+);
+```
+
+With the barrier on, a click outside still closes the menu, but that click is consumed: it does not activate the widget below, and a right-click elsewhere closes the menu without opening a new one. The barrier is invisible, does not affect keyboard input, and is removed together with the menu.
 
 ## Menu Item Types
 

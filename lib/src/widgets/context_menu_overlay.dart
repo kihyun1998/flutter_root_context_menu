@@ -41,6 +41,9 @@ class ContextMenuRoot extends StatefulWidget {
   final Rect? areaConstraints;
   final String? title;
 
+  /// Whether input outside the menu is blocked from reaching widgets below.
+  final bool useBarrier;
+
   const ContextMenuRoot({
     super.key,
     required this.position,
@@ -48,6 +51,7 @@ class ContextMenuRoot extends StatefulWidget {
     required this.config,
     this.areaConstraints,
     this.title,
+    this.useBarrier = false,
   });
 
   @override
@@ -280,10 +284,13 @@ class _ContextMenuRootState extends State<ContextMenuRoot> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Full screen transparent layer to detect clicks outside menu
+        // Full screen layer that closes the menu on outside clicks;
+        // opaque (blocks widgets below) when useBarrier is set
         Positioned.fill(
           child: Listener(
-            behavior: HitTestBehavior.translucent,
+            behavior: widget.useBarrier
+                ? HitTestBehavior.opaque
+                : HitTestBehavior.translucent,
             onPointerDown: (_) => RootContextMenuController().hideMenu(),
             child: const IgnorePointer(),
           ),

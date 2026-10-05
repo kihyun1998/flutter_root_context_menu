@@ -75,6 +75,7 @@ class _PlaygroundPageState extends State<PlaygroundPage> {
             onActionChanged: (action) => setState(() => _lastAction = action),
             config: _settings.toConfig(),
             title: _settings.showTitle ? _settings.title : null,
+            useBarrier: _settings.useBarrier,
             disabledIconColor: _settings.disabledIconColor,
           ),
         ),

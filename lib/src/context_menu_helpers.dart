@@ -26,12 +26,17 @@ import 'widgets/context_menu_area.dart';
 ///   child: Text('Right click me'),
 /// )
 /// ```
+///
+/// When [useBarrier] is true, widgets outside the menu stop receiving hover,
+/// click and scroll input while the menu is open. A click outside still closes
+/// the menu, but that click is consumed and does not reach the widget below it.
 void showRootContextMenu({
   required BuildContext context,
   required Offset position,
   required List<ContextMenuItem> items,
   ContextMenuConfig? config,
   String? title,
+  bool useBarrier = false,
 }) {
   // Get area constraints from the nearest ContextMenuArea
   final areaConstraints = ContextMenuArea.of(context);
@@ -43,6 +48,7 @@ void showRootContextMenu({
     config: config,
     areaConstraints: areaConstraints,
     title: title,
+    useBarrier: useBarrier,
   );
 }
 

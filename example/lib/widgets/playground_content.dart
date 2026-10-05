@@ -12,6 +12,7 @@ class PlaygroundContent extends StatefulWidget {
   final ContextMenuConfig config;
   final String? title;
   final Color disabledIconColor;
+  final bool useBarrier;
 
   const PlaygroundContent({
     super.key,
@@ -20,6 +21,7 @@ class PlaygroundContent extends StatefulWidget {
     required this.config,
     required this.disabledIconColor,
     this.title,
+    this.useBarrier = false,
   });
 
   @override
@@ -48,6 +50,7 @@ class _PlaygroundContentState extends State<PlaygroundContent> {
           context: context,
           position: details.globalPosition,
           title: widget.title,
+          useBarrier: widget.useBarrier,
           items: [
             ContextMenuItem(
               label: 'Copy',
