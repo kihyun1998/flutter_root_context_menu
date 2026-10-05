@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_root_context_menu/flutter_root_context_menu.dart';
@@ -88,6 +89,182 @@ void main() {
 
       // Menu should be open
       expect(isRootContextMenuOpen(), true);
+    });
+  });
+  group('useBarrier', () {
+    const targetCenter = Offset(400, 400);
+    const emptySpot = Offset(700, 50);
+
+    late int targetTaps;
+    late int targetHoverEnters;
+    late int itemTaps;
+    late int targetScrolls;
+
+    Future<void> pumpAndOpen(WidgetTester tester, {bool? useBarrier}) async {
+      targetTaps = 0;
+      targetHoverEnters = 0;
+      itemTaps = 0;
+      targetScrolls = 0;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Stack(
+              children: [
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  child: Builder(
+                    builder: (context) => GestureDetector(
+                      onTap: () {
+                        final items = [
+                          ContextMenuItem(
+                            label: 'Test Item',
+                            onTap: () => itemTaps++,
+                          ),
+                        ];
+                        if (useBarrier == null) {
+                          showRootContextMenu(
+                            context: context,
+                            position: const Offset(10, 10),
+                            items: items,
+                          );
+                        } else {
+                          showRootContextMenu(
+                            context: context,
+                            position: const Offset(10, 10),
+                            items: items,
+                            useBarrier: useBarrier,
+                          );
+                        }
+                      },
+                      child: const Text('Open'),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: targetCenter.dx - 50,
+                  top: targetCenter.dy - 50,
+                  width: 100,
+                  height: 100,
+                  child: Listener(
+                    onPointerSignal: (event) {
+                      if (event is PointerScrollEvent) targetScrolls++;
+                    },
+                    child: MouseRegion(
+                      onEnter: (_) => targetHoverEnters++,
+                      child: GestureDetector(
+                        onTap: () => targetTaps++,
+                        child: const ColoredBox(color: Colors.blue),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+      expect(isRootContextMenuOpen(), true);
+    }
+
+    Future<void> hoverTarget(WidgetTester tester) async {
+      final gesture = await tester.createGesture(kind: PointerDeviceKind.mouse);
+      addTearDown(gesture.removePointer);
+      await gesture.addPointer(location: emptySpot);
+      await tester.pump();
+      await gesture.moveTo(targetCenter);
+      await tester.pump();
+    }
+
+    Future<void> scrollTarget(WidgetTester tester) async {
+      final pointer = TestPointer(1, PointerDeviceKind.mouse);
+      await tester.sendEventToBinding(pointer.hover(targetCenter));
+      await tester.sendEventToBinding(pointer.scroll(const Offset(0, 50)));
+      await tester.pump();
+    }
+
+    tearDown(closeRootContextMenu);
+
+    testWidgets(
+        'on: tap outside closes the menu without reaching widgets below',
+        (tester) async {
+      await pumpAndOpen(tester, useBarrier: true);
+
+      await tester.tapAt(targetCenter);
+      await tester.pumpAndSettle();
+
+      expect(isRootContextMenuOpen(), false);
+      expect(targetTaps, 0);
+    });
+
+    testWidgets('on: hover outside does not reach widgets below',
+        (tester) async {
+      await pumpAndOpen(tester, useBarrier: true);
+
+      await hoverTarget(tester);
+
+      expect(targetHoverEnters, 0);
+    });
+
+    testWidgets('on: scroll outside does not reach widgets below',
+        (tester) async {
+      await pumpAndOpen(tester, useBarrier: true);
+
+      await scrollTarget(tester);
+
+      expect(targetScrolls, 0);
+    });
+
+    testWidgets('on: menu items still work', (tester) async {
+      await pumpAndOpen(tester, useBarrier: true);
+
+      await tester.tap(find.text('Test Item'));
+      await tester.pumpAndSettle();
+
+      expect(itemTaps, 1);
+      expect(isRootContextMenuOpen(), false);
+    });
+
+    testWidgets('on: closing the menu removes the barrier', (tester) async {
+      await pumpAndOpen(tester, useBarrier: true);
+
+      closeRootContextMenu();
+      await tester.pumpAndSettle();
+      await tester.tapAt(targetCenter);
+      await tester.pump();
+
+      expect(targetTaps, 1);
+    });
+
+    testWidgets(
+        'default: tap outside closes the menu and reaches widgets below',
+        (tester) async {
+      await pumpAndOpen(tester);
+
+      await tester.tapAt(targetCenter);
+      await tester.pumpAndSettle();
+
+      expect(isRootContextMenuOpen(), false);
+      expect(targetTaps, 1);
+    });
+
+    testWidgets('default: hover outside reaches widgets below', (tester) async {
+      await pumpAndOpen(tester);
+
+      await hoverTarget(tester);
+
+      expect(targetHoverEnters, 1);
+    });
+
+    testWidgets('default: scroll outside reaches widgets below',
+        (tester) async {
+      await pumpAndOpen(tester);
+
+      await scrollTarget(tester);
+
+      expect(targetScrolls, 1);
     });
   });
 }

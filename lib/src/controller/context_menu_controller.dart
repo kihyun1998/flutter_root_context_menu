@@ -23,6 +23,7 @@ class RootContextMenuController {
     ContextMenuConfig? config,
     Rect? areaConstraints,
     String? title,
+    bool useBarrier = false,
   }) {
     // Close any existing menu first
     hideMenu();
@@ -36,6 +37,7 @@ class RootContextMenuController {
         config: effectiveConfig,
         areaConstraints: areaConstraints,
         title: title,
+        useBarrier: useBarrier,
       ),
     );
 

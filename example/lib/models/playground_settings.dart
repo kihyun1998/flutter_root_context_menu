@@ -6,6 +6,9 @@ class PlaygroundSettings {
   String title;
   bool showTitle;
 
+  // Barrier settings
+  bool useBarrier;
+
   // Animation settings
   ContextMenuAnimationBuilder selectedAnimation;
   String animationName;
@@ -68,6 +71,7 @@ class PlaygroundSettings {
   PlaygroundSettings({
     this.title = 'Playground Menu',
     this.showTitle = true,
+    this.useBarrier = false,
     this.selectedAnimation = ContextMenuAnimations.popup,
     this.animationName = 'Popup',
     this.animationDuration = 200,

@@ -1,3 +1,8 @@
+## 0.11.0
+
+- **feat**: Add optional `useBarrier` parameter to `showRootContextMenu()` (default `false`). When enabled, hover, clicks and scrolling outside the open menu no longer reach the widgets behind it; a click outside still closes the menu but is consumed. Idea from #1 by @yuing798.
+- **example**: Add Barrier toggle to the playground control panel.
+
 ## 0.10.1
 
 - **fix**: Add explicit `mouseCursor` to menu items — `SystemMouseCursors.click` for enabled items, `SystemMouseCursors.forbidden` for disabled. Required after Flutter updates where `GestureDetector` no longer implicitly switches the cursor on hover.
