@@ -15,19 +15,38 @@ class RootContextMenuController {
   /// Current active overlay entry for the menu.
   OverlayEntry? _currentMenuEntry;
 
+  OverlayEntry? _barrierEntry;
+
   /// Shows a context menu at the specified position.
-  void showMenu({
-    required BuildContext context,
-    required Offset position,
-    required List<ContextMenuItem> items,
-    ContextMenuConfig? config,
-    Rect? areaConstraints,
-    String? title,
-  }) {
+  void showMenu(
+      {required BuildContext context,
+      required Offset position,
+      required List<ContextMenuItem> items,
+      ContextMenuConfig? config,
+      Rect? areaConstraints,
+      String? title,
+      bool needBarrier = false}) {
     // Close any existing menu first
     hideMenu();
 
     final effectiveConfig = config ?? const ContextMenuConfig();
+    final overlay = Overlay.of(context);
+
+    if (needBarrier) {
+      _barrierEntry = OverlayEntry(
+        builder: (_) => Positioned.fill(
+          child: MouseRegion(
+            opaque: true,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: hideMenu,
+              child: const SizedBox.expand(),
+            ),
+          ),
+        ),
+      );
+      overlay.insert(_barrierEntry!);
+    }
 
     _currentMenuEntry = OverlayEntry(
       builder: (context) => ContextMenuRoot(
@@ -46,6 +65,9 @@ class RootContextMenuController {
   void hideMenu() {
     _currentMenuEntry?.remove();
     _currentMenuEntry = null;
+
+    _barrierEntry?.remove();
+    _barrierEntry = null;
   }
 
   /// Returns true if a menu is currently open.

@@ -32,18 +32,19 @@ void showRootContextMenu({
   required List<ContextMenuItem> items,
   ContextMenuConfig? config,
   String? title,
+  bool needBarrier = false,
 }) {
   // Get area constraints from the nearest ContextMenuArea
   final areaConstraints = ContextMenuArea.of(context);
 
   RootContextMenuController().showMenu(
-    context: context,
-    position: position,
-    items: items,
-    config: config,
-    areaConstraints: areaConstraints,
-    title: title,
-  );
+      context: context,
+      position: position,
+      items: items,
+      config: config,
+      areaConstraints: areaConstraints,
+      title: title,
+      needBarrier: needBarrier);
 }
 
 /// Closes the currently open context menu if any.

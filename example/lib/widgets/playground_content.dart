@@ -48,6 +48,7 @@ class _PlaygroundContentState extends State<PlaygroundContent> {
           context: context,
           position: details.globalPosition,
           title: widget.title,
+          needBarrier: false,
           items: [
             ContextMenuItem(
               label: 'Copy',
