@@ -87,6 +87,20 @@ showRootContextMenu(
 
 With the barrier on, a click outside still closes the menu, but that click is consumed: it does not activate the widget below, and a right-click elsewhere closes the menu without opening a new one. The barrier is invisible, does not affect keyboard input, and is removed together with the menu.
 
+To make a right-click elsewhere close the menu **and** open the next one in a single click (like native desktop apps), also pass `barrierPassesSecondaryClick: true`:
+
+```dart
+showRootContextMenu(
+  context: context,
+  position: details.globalPosition,
+  useBarrier: true,
+  barrierPassesSecondaryClick: true,
+  items: [...],
+);
+```
+
+Only secondary clicks pass through — hover, primary clicks and scrolling stay blocked. Any widget below that handles secondary taps receives the click, not just context-menu areas. Has no effect without `useBarrier`.
+
 ## Menu Item Types
 
 | Type | Description |

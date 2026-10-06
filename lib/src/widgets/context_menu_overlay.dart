@@ -8,6 +8,7 @@ import '../models/context_menu_config.dart';
 import '../models/context_menu_item.dart';
 import '../utils/menu_position_calculator.dart';
 import 'context_menu_item_widget.dart';
+import 'context_menu_outside_layer.dart';
 
 /// Represents one level in the menu stack (root or submenu).
 class _MenuLevel {
@@ -44,6 +45,10 @@ class ContextMenuRoot extends StatefulWidget {
   /// Whether input outside the menu is blocked from reaching widgets below.
   final bool useBarrier;
 
+  /// Whether a secondary click outside the menu still reaches widgets below
+  /// when [useBarrier] is true.
+  final bool barrierPassesSecondaryClick;
+
   const ContextMenuRoot({
     super.key,
     required this.position,
@@ -52,6 +57,7 @@ class ContextMenuRoot extends StatefulWidget {
     this.areaConstraints,
     this.title,
     this.useBarrier = false,
+    this.barrierPassesSecondaryClick = false,
   });
 
   @override
@@ -284,15 +290,12 @@ class _ContextMenuRootState extends State<ContextMenuRoot> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Full screen layer that closes the menu on outside clicks;
-        // opaque (blocks widgets below) when useBarrier is set
+        // Full screen layer that closes the menu on outside clicks
         Positioned.fill(
-          child: Listener(
-            behavior: widget.useBarrier
-                ? HitTestBehavior.opaque
-                : HitTestBehavior.translucent,
-            onPointerDown: (_) => RootContextMenuController().hideMenu(),
-            child: const IgnorePointer(),
+          child: ContextMenuOutsideLayer(
+            blocking: widget.useBarrier,
+            passSecondaryClick: widget.barrierPassesSecondaryClick,
+            onPointerDown: () => RootContextMenuController().hideMenu(),
           ),
         ),
         // Menu panels

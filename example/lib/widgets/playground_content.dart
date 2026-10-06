@@ -13,6 +13,7 @@ class PlaygroundContent extends StatefulWidget {
   final String? title;
   final Color disabledIconColor;
   final bool useBarrier;
+  final bool barrierPassesSecondaryClick;
 
   const PlaygroundContent({
     super.key,
@@ -22,6 +23,7 @@ class PlaygroundContent extends StatefulWidget {
     required this.disabledIconColor,
     this.title,
     this.useBarrier = false,
+    this.barrierPassesSecondaryClick = false,
   });
 
   @override
@@ -51,6 +53,7 @@ class _PlaygroundContentState extends State<PlaygroundContent> {
           position: details.globalPosition,
           title: widget.title,
           useBarrier: widget.useBarrier,
+          barrierPassesSecondaryClick: widget.barrierPassesSecondaryClick,
           items: [
             ContextMenuItem(
               label: 'Copy',

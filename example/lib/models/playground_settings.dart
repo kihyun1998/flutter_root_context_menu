@@ -8,6 +8,7 @@ class PlaygroundSettings {
 
   // Barrier settings
   bool useBarrier;
+  bool barrierPassesSecondaryClick;
 
   // Animation settings
   ContextMenuAnimationBuilder selectedAnimation;
@@ -72,6 +73,7 @@ class PlaygroundSettings {
     this.title = 'Playground Menu',
     this.showTitle = true,
     this.useBarrier = false,
+    this.barrierPassesSecondaryClick = false,
     this.selectedAnimation = ContextMenuAnimations.popup,
     this.animationName = 'Popup',
     this.animationDuration = 200,

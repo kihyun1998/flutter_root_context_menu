@@ -24,6 +24,7 @@ class RootContextMenuController {
     Rect? areaConstraints,
     String? title,
     bool useBarrier = false,
+    bool barrierPassesSecondaryClick = false,
   }) {
     // Close any existing menu first
     hideMenu();
@@ -38,6 +39,7 @@ class RootContextMenuController {
         areaConstraints: areaConstraints,
         title: title,
         useBarrier: useBarrier,
+        barrierPassesSecondaryClick: barrierPassesSecondaryClick,
       ),
     );
 
