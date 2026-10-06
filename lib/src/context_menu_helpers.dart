@@ -30,6 +30,9 @@ import 'widgets/context_menu_area.dart';
 /// When [useBarrier] is true, widgets outside the menu stop receiving hover,
 /// click and scroll input while the menu is open. A click outside still closes
 /// the menu, but that click is consumed and does not reach the widget below it.
+/// Set [barrierPassesSecondaryClick] to let a secondary (right) click outside
+/// the menu reach the widget below as well, so one right-click elsewhere closes
+/// this menu and can open the next one.
 void showRootContextMenu({
   required BuildContext context,
   required Offset position,
@@ -37,6 +40,7 @@ void showRootContextMenu({
   ContextMenuConfig? config,
   String? title,
   bool useBarrier = false,
+  bool barrierPassesSecondaryClick = false,
 }) {
   // Get area constraints from the nearest ContextMenuArea
   final areaConstraints = ContextMenuArea.of(context);
@@ -49,6 +53,7 @@ void showRootContextMenu({
     areaConstraints: areaConstraints,
     title: title,
     useBarrier: useBarrier,
+    barrierPassesSecondaryClick: barrierPassesSecondaryClick,
   );
 }
 

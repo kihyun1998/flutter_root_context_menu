@@ -267,4 +267,156 @@ void main() {
       expect(targetScrolls, 1);
     });
   });
+  group('barrierPassesSecondaryClick', () {
+    const firstSpot = Offset(100, 100);
+    const secondSpot = Offset(400, 400);
+    const emptySpot = Offset(700, 300);
+
+    late int menusOpened;
+    late int areaTaps;
+    late int areaHoverEnters;
+    late int appPointerDowns;
+
+    Future<void> pumpArea(
+      WidgetTester tester, {
+      required bool useBarrier,
+      required bool passSecondary,
+    }) async {
+      menusOpened = 0;
+      areaTaps = 0;
+      areaHoverEnters = 0;
+      appPointerDowns = 0;
+      await tester.pumpWidget(
+        Listener(
+          onPointerDown: (_) => appPointerDowns++,
+          child: MaterialApp(
+            home: Scaffold(
+              body: Stack(
+                children: [
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    width: 600,
+                    height: 600,
+                    child: Builder(
+                      builder: (context) => MouseRegion(
+                        onEnter: (_) => areaHoverEnters++,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => areaTaps++,
+                          onSecondaryTapDown: (details) {
+                            menusOpened++;
+                            showRootContextMenu(
+                              context: context,
+                              position: details.globalPosition,
+                              useBarrier: useBarrier,
+                              barrierPassesSecondaryClick: passSecondary,
+                              items: [
+                                ContextMenuItem(
+                                  label: 'Menu $menusOpened',
+                                  onTap: () {},
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.tapAt(firstSpot, buttons: kSecondaryButton);
+      await tester.pumpAndSettle();
+      expect(find.text('Menu 1'), findsOneWidget);
+      appPointerDowns = 0;
+    }
+
+    tearDown(closeRootContextMenu);
+
+    testWidgets('on: one right-click elsewhere reopens the menu there',
+        (tester) async {
+      await pumpArea(tester, useBarrier: true, passSecondary: true);
+
+      await tester.tapAt(secondSpot, buttons: kSecondaryButton);
+      await tester.pumpAndSettle();
+
+      expect(isRootContextMenuOpen(), true);
+      expect(find.text('Menu 1'), findsNothing);
+      expect(find.text('Menu 2'), findsOneWidget);
+      final menuTopLeft = tester.getTopLeft(find.text('Menu 2'));
+      expect(menuTopLeft.dx, greaterThanOrEqualTo(secondSpot.dx));
+      expect(menuTopLeft.dy, greaterThanOrEqualTo(secondSpot.dy));
+    });
+
+    testWidgets('on: widgets above the overlay see the right-click once',
+        (tester) async {
+      await pumpArea(tester, useBarrier: true, passSecondary: true);
+
+      await tester.tapAt(secondSpot, buttons: kSecondaryButton);
+      await tester.pumpAndSettle();
+
+      expect(appPointerDowns, 1);
+    });
+
+    testWidgets('on: left-click outside is still blocked', (tester) async {
+      await pumpArea(tester, useBarrier: true, passSecondary: true);
+
+      await tester.tapAt(secondSpot);
+      await tester.pumpAndSettle();
+
+      expect(isRootContextMenuOpen(), false);
+      expect(areaTaps, 0);
+    });
+
+    testWidgets('on: hover outside is still blocked', (tester) async {
+      await pumpArea(tester, useBarrier: true, passSecondary: true);
+      areaHoverEnters = 0;
+
+      final gesture = await tester.createGesture(kind: PointerDeviceKind.mouse);
+      addTearDown(gesture.removePointer);
+      await gesture.addPointer(location: emptySpot);
+      await tester.pump();
+      await gesture.moveTo(secondSpot);
+      await tester.pump();
+
+      expect(areaHoverEnters, 0);
+    });
+
+    testWidgets('on: right-click where nothing listens just closes the menu',
+        (tester) async {
+      await pumpArea(tester, useBarrier: true, passSecondary: true);
+
+      await tester.tapAt(emptySpot, buttons: kSecondaryButton);
+      await tester.pumpAndSettle();
+
+      expect(isRootContextMenuOpen(), false);
+      expect(menusOpened, 1);
+    });
+
+    testWidgets('off: right-click elsewhere only closes the barrier menu',
+        (tester) async {
+      await pumpArea(tester, useBarrier: true, passSecondary: false);
+
+      await tester.tapAt(secondSpot, buttons: kSecondaryButton);
+      await tester.pumpAndSettle();
+
+      expect(isRootContextMenuOpen(), false);
+      expect(menusOpened, 1);
+    });
+
+    testWidgets('without useBarrier: right-click elsewhere reopens as before',
+        (tester) async {
+      await pumpArea(tester, useBarrier: false, passSecondary: true);
+
+      await tester.tapAt(secondSpot, buttons: kSecondaryButton);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Menu 2'), findsOneWidget);
+      expect(appPointerDowns, 1);
+    });
+  });
 }

@@ -65,6 +65,19 @@ class ControlPanel extends StatelessWidget {
           'Block hover, clicks and scroll outside the open menu',
           style: TextStyle(fontSize: 12, color: Colors.grey),
         ),
+        Row(
+          children: [
+            const Text('Pass right-click'),
+            const Spacer(),
+            Switch(
+              value: settings.barrierPassesSecondaryClick,
+              onChanged: settings.useBarrier
+                  ? (v) =>
+                        _update(() => settings.barrierPassesSecondaryClick = v)
+                  : null,
+            ),
+          ],
+        ),
         const SizedBox(height: 20),
       ],
     );
