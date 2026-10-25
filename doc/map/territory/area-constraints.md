@@ -29,5 +29,5 @@ From reading the source:
 - [Example playground](example-playground.md): both pages wrap their content in `ContextMenuArea`.
 
 ## Known holes / open
-- The doc comment on `ContextMenuArea` names `[showContextMenu]`, which does not exist; the function is `showRootContextMenu`.
+- The doc comment on `ContextMenuArea` names `[showContextMenu]`, which does not exist; the function is `showRootContextMenu`. Tracked: #9
 - An area larger than the overlay, or partly off screen, is used as is; the menu can be clamped into a region that is not visible.

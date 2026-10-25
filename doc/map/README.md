@@ -48,4 +48,4 @@ A territory appears when something in the repo commits to it: code, a design in 
 
 ## Shape of the repo
 
-A small single-package library (about 1,800 lines under `lib/`). One file, `lib/src/widgets/context_menu_overlay.dart`, holds the submenu tree, positioning orchestration, animation driving and panel rendering, so it appears in five territories. There are no decision records; the design history lives in `plan.md`, CHANGELOG and issues #2 and #4. The largest gap is testing: the only tests cover the helpers and the barrier, and nothing covers submenus, positioning or animations.
+A small single-package library (about 1,800 lines under `lib/`). One file, `lib/src/widgets/context_menu_overlay.dart`, holds the submenu tree, positioning orchestration, animation driving and panel rendering, so it appears in five territories. There are no decision records; the design history lives in `plan.md`, CHANGELOG and issues #2 and #4. The largest gap is testing: the only tests cover the helpers and the barrier, and nothing covers submenus, positioning or animations. Tracked: #13

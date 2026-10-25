@@ -9,7 +9,7 @@ Four sites each produce or consume a coordinate on the assumption that global eq
 - `_ContextMenuAreaProvider.getAreaBounds` builds the area rect with `localToGlobal`;
 - `_ContextMenuRootState._handlePanelMeasured` builds parent and trigger bounds with `localToGlobal` and uses `MediaQuery.size` from origin (0,0) as the default area;
 - `_ContextMenuPanel.build` places `Positioned(left: position.dx, top: position.dy)` inside the overlay's `Stack`.
-Converting one site to overlay-local coordinates without the others would misplace menus even in the common case. Kept as an invariant and as a known defect (maintainer, 2026-10-25).
+Converting one site to overlay-local coordinates without the others would misplace menus even in the common case. Kept as an invariant and as a known defect (maintainer, 2026-10-25). Tracked: #12
 
 ## Territories it holds in
 - [Positioning](../territory/positioning.md): `_handlePanelMeasured`, `_ContextMenuPanel.build`.

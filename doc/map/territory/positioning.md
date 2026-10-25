@@ -34,7 +34,7 @@ Confirmed against the source:
 - [Appearance](appearance.md): `minWidth`, `maxWidth`, `itemHeight`, padding and title change the measured size.
 
 ## Known holes / open
-- When the overlay does not start at the screen origin, panels land offset by the overlay's origin. See [global coordinates](../invariant/global-coordinates.md).
+- When the overlay does not start at the screen origin, panels land offset by the overlay's origin. See [global coordinates](../invariant/global-coordinates.md). Tracked: #12
 - If the parent or trigger render box is gone at measurement, the submenu stays at `Offset.zero` with opacity 0 until it closes; it is invisible but its `MouseRegion` still sits at the top-left.
 - No re-measurement after the first frame: a panel whose content later changes size (a custom item) keeps its first position.
 - No re-placement on window resize (`plan.md` §10).
