@@ -33,3 +33,4 @@ migrate_working_dir/
 # Internal working notes (not part of the package)
 /plan.md
 /todo.md
+/doc/agents/
