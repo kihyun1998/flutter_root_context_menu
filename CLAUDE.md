@@ -2,17 +2,11 @@
 
 ## Agent skills
 
-### Issue tracker
-
-Issues are tracked in GitHub Issues for `kihyun1998/flutter_root_context_menu`. See `doc/agents/issue-tracker.md`.
-
-### Triage labels
-
-Default vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `doc/agents/triage-labels.md`.
-
-### Domain docs
-
-Single-context: one `GLOSSARY.md` and `doc/adr/` at the repo root. See `doc/agents/domain.md`.
+| When you | Read first |
+|---|---|
+| create, read, comment on or label an issue | `doc/agents/issue-tracker.md` |
+| apply a triage role (needs triage, ready for agent…) | `doc/agents/triage-labels.md` |
+| explore the code, name a domain concept, or contradict a decision | `doc/agents/domain.md` |
 
 ## Comments
 
