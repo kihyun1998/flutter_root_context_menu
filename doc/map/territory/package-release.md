@@ -29,5 +29,5 @@ From reading the repo:
 
 ## Known holes / open
 - Dependabot is designed but not configured. Tracked: #6.
-- README says "Nested submenu support with unlimited depth" while `SubmenuConfig.maxDepth` defaults to 5 (see [submenu tree](submenu-tree.md)).
+- README says "Nested submenu support with unlimited depth" while `SubmenuConfig.maxDepth` defaults to 5 (see [submenu tree](submenu-tree.md)). Tracked: #8
 - No CI runs `flutter analyze` or the tests.

@@ -32,5 +32,5 @@ Confirmed against the source:
 - [Example playground](example-playground.md): `PlaygroundSettings` mirrors these fields for the control panel.
 
 ## Known holes / open
-- `SubmenuConfig.icon`'s doc comment still says the default chevron is wrapped in `Opacity` (0.6 enabled, 0.3 disabled). The code draws `const Icon(Icons.chevron_right, size: 16)` with no `Opacity`, as CHANGELOG 0.10.0 says.
+- `SubmenuConfig.icon`'s doc comment still says the default chevron is wrapped in `Opacity` (0.6 enabled, 0.3 disabled). The code draws `const Icon(Icons.chevron_right, size: 16)` with no `Opacity`, as CHANGELOG 0.10.0 says. Tracked: #9
 - No theming: defaults are fixed light colours and do not read `Theme.of(context)`.

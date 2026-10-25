@@ -35,5 +35,5 @@ From reading the source:
 - [Example playground](example-playground.md): the demo menu exercises every kind.
 
 ## Known holes / open
-- `ContextMenuItem.submenu` with an empty `children` list renders as a plain item with no `onTap` that still closes the menu on tap. `plan.md` §9 #16 planned an assert; none exists (`git grep -n assert -- lib/src/models/context_menu_item.dart` prints nothing).
+- `ContextMenuItem.submenu` with an empty `children` list renders as a plain item with no `onTap` that still closes the menu on tap. `plan.md` §9 #16 planned an assert; none exists (`git grep -n assert -- lib/src/models/context_menu_item.dart` prints nothing). Tracked: #10
 - Errors thrown by an async `onTap` are not caught by the library.

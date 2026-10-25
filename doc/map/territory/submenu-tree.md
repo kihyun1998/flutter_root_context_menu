@@ -36,9 +36,9 @@ Confirmed against `context_menu_overlay.dart`:
 - [Example playground](example-playground.md): the Submenu section drives every `SubmenuConfig` field.
 
 ## Known holes / open
-- **Bug:** tapping a submenu item waits `openDelay` before opening. `plan.md` §5 and §9 #8 say a tap opens immediately for touch devices; the code routes the tap through `_handleSubmenuItemHover`, which starts the timer. The intended behaviour is immediate (maintainer, 2026-10-25).
-- **Open question:** at the depth limit, a submenu item still shows its chevron and highlights but never opens. README says "unlimited depth" (Features) and "Unlimited nesting depth (configurable via `SubmenuConfig.maxDepth`)". Whether the limit should be visible to the user is undecided (maintainer, 2026-10-25).
-- `SubmenuConfig.operator ==` and `hashCode` leave out `icon`.
-- No test covers submenus: `grep -n -i submenu test/*.dart` prints nothing.
+- **Bug:** tapping a submenu item waits `openDelay` before opening. `plan.md` §5 and §9 #8 say a tap opens immediately for touch devices; the code routes the tap through `_handleSubmenuItemHover`, which starts the timer. The intended behaviour is immediate (maintainer, 2026-10-25). Tracked: #7
+- **Open question:** at the depth limit, a submenu item still shows its chevron and highlights but never opens. README says "unlimited depth" (Features) and "Unlimited nesting depth (configurable via `SubmenuConfig.maxDepth`)". Whether the limit should be visible to the user is undecided (maintainer, 2026-10-25). Tracked: #8
+- `SubmenuConfig.operator ==` and `hashCode` leave out `icon`. Tracked: #11
+- No test covers submenus: `grep -n -i submenu test/*.dart` prints nothing. Tracked: #13
 - RTL locales: submenus always try the right side first (`plan.md` §10).
 - No keyboard navigation (`plan.md` §10).
