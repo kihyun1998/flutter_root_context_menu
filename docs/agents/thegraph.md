@@ -9,3 +9,7 @@ Flutter context menu package for desktop & web: right-click menus with nested su
 | Source | Informs | Reached by | Binding |
 |---|---|---|---|
 | Flutter's `MenuAnchor` / `PopupMenuButton` | how it works | the Flutter source tree (`packages/flutter/lib/src/material/menu_anchor.dart`, `popup_menu.dart`), raw | example |
+
+## Release
+
+pub-ready
